@@ -1,0 +1,96 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+export function CustomCursor() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const [enabled, setEnabled] = useState(false);
+  const [variant, setVariant] = useState<"default" | "link" | "project">("default");
+  const [label, setLabel] = useState<string | null>(null);
+
+  useEffect(() => {
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!canHover || prefersReduced) return;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time capability gate on mount
+    setEnabled(true);
+    document.documentElement.classList.add("custom-cursor");
+
+    const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const ring = { x: pos.x, y: pos.y };
+
+    function onMove(e: MouseEvent) {
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
+      }
+    }
+
+    function onOver(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      const projectTarget = target.closest<HTMLElement>("[data-cursor='project']");
+      const linkTarget = target.closest<HTMLElement>("a, button, [data-cursor='link']");
+      if (projectTarget) {
+        setVariant("project");
+        setLabel(projectTarget.dataset.cursorLabel ?? "View");
+      } else if (linkTarget) {
+        setVariant("link");
+        setLabel(null);
+      } else {
+        setVariant("default");
+        setLabel(null);
+      }
+    }
+
+    let raf: number;
+    function tick() {
+      ring.x += (pos.x - ring.x) * 0.18;
+      ring.y += (pos.y - ring.y) * 0.18;
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0) translate(-50%, -50%)`;
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseover", onOver, { passive: true });
+
+    return () => {
+      document.documentElement.classList.remove("custom-cursor");
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", onOver);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  if (!enabled) return null;
+
+  return (
+    <>
+      <div
+        ref={dotRef}
+        className="pointer-events-none fixed left-0 top-0 z-[999] h-1.5 w-1.5 rounded-full bg-(--color-cyan) will-change-transform"
+      />
+      <div
+        ref={ringRef}
+        className="pointer-events-none fixed left-0 top-0 z-[998] flex items-center justify-center rounded-full border will-change-transform transition-[width,height,border-color,background-color] duration-200 ease-out"
+        style={{
+          width: variant === "project" ? 88 : variant === "link" ? 48 : 28,
+          height: variant === "project" ? 88 : variant === "link" ? 48 : 28,
+          borderColor:
+            variant === "default" ? "rgba(244,245,247,0.35)" : "var(--color-cyan)",
+          backgroundColor:
+            variant === "project" ? "rgba(77,232,255,0.08)" : "transparent",
+        }}
+      >
+        {label && (
+          <span className="hud-label !text-[9px] text-(--color-cyan)">{label}</span>
+        )}
+      </div>
+    </>
+  );
+}
