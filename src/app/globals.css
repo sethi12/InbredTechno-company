@@ -1,24 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  /* Base */
-  --color-void: #0a0b0d;
-  --color-void-soft: #0f1114;
-  --color-surface: #15171b;
-  --color-surface-border: rgba(244, 245, 247, 0.08);
+  /* Cream Palette (Primary Light Matrix) */
+  --color-cream-bg: #f5efe6;            /* Warm organic cream */
+  --color-cream-surface: #faf6f0;       /* Silky pure ivory */
+  --color-cream-soft: #ece2d2;          /* Warm custard cream */
+  --color-cream-border: rgba(42, 23, 16, 0.08); /* Subtle chocolate glass border */
+  --color-cream-border-strong: rgba(42, 23, 16, 0.16);
 
-  /* Typography */
-  --color-ink: #f4f5f7;
-  --color-ink-dim: #8b9099;
-  --color-ink-faint: #565a62;
+  /* Chocolate Palette (Primary Dark Matrix) */
+  --color-void: #120b07;                /* Deepest roasted obsidian cocoa */
+  --color-void-soft: #1a100b;           /* Rich dark espresso */
+  --color-surface: #241710;             /* Warm velvet mocha */
+  --color-surface-soft: #2e1e15;        /* Roasted chestnut */
+  --color-surface-hover: #38251a;       /* Smooth milk chocolate */
+  --color-surface-border: rgba(246, 238, 227, 0.09); /* Cream glass border */
+  --color-surface-border-strong: rgba(246, 238, 227, 0.2);
 
-  /* Accents */
-  --color-cyan: #4de8ff;
-  --color-cyan-dim: rgba(77, 232, 255, 0.15);
-  --color-violet: #8b7fff;
-  --color-violet-dim: rgba(139, 127, 255, 0.15);
-  --color-active: #3cff8e;
-  --color-alert: #ff5470;
+  /* Typography Colors */
+  --color-chocolate-ink: #1a100b;       /* Dark roasted chocolate headline */
+  --color-chocolate-dim: #4d382a;       /* Warm mocha body */
+  --color-chocolate-faint: #7d6553;     /* Muted cocoa taupe */
+
+  --color-ink: #fbf7ee;                 /* Silky pure whipped cream text */
+  --color-ink-dim: #d4c2ad;             /* Warm latte cream */
+  --color-ink-faint: #917c69;           /* Muted toasted almond */
+
+  /* Luxury Accents */
+  --color-caramel: #df9d56;             /* Radiant liquid caramel gold */
+  --color-bronze: #c57e3a;              /* Rich luxury bronze */
+  --color-amber: #e8a867;               /* Warm glowing amber */
+  --color-active: #5cb88a;              /* Sage emerald */
+  --color-alert: #e0684f;               /* Terracotta ruby */
+
+  /* Aliases */
+  --color-cyan: #df9d56;
+  --color-cyan-dim: rgba(223, 157, 86, 0.15);
+  --color-violet: #cca074;
+  --color-violet-dim: rgba(204, 160, 116, 0.15);
 
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-inter);
@@ -26,12 +45,23 @@
 }
 
 @theme inline {
+  --color-cream-bg: var(--color-cream-bg);
+  --color-cream-surface: var(--color-cream-surface);
+  --color-cream-soft: var(--color-cream-soft);
   --color-void: var(--color-void);
   --color-void-soft: var(--color-void-soft);
   --color-surface: var(--color-surface);
+  --color-surface-soft: var(--color-surface-soft);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-chocolate-ink: var(--color-chocolate-ink);
+  --color-chocolate-dim: var(--color-chocolate-dim);
+  --color-chocolate-faint: var(--color-chocolate-faint);
   --color-ink: var(--color-ink);
   --color-ink-dim: var(--color-ink-dim);
   --color-ink-faint: var(--color-ink-faint);
+  --color-caramel: var(--color-caramel);
+  --color-bronze: var(--color-bronze);
+  --color-amber: var(--color-amber);
   --color-cyan: var(--color-cyan);
   --color-violet: var(--color-violet);
   --color-active: var(--color-active);
@@ -46,21 +76,42 @@
 }
 
 html {
-  background: var(--color-void);
-  color-scheme: dark;
+  background: var(--color-cream-bg);
+  color-scheme: light dark;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-void);
-  color: var(--color-ink);
+  background: var(--color-cream-bg);
+  color: var(--color-chocolate-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--color-cyan);
+  background: var(--color-caramel);
   color: var(--color-void);
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0e7d8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5a88e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-caramel);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -70,16 +121,89 @@ body {
   }
 }
 
-.bg-grid {
+/* Section Themes for Visual Rhythm */
+.section-cream {
+  background-color: var(--color-cream-bg);
+  color: var(--color-chocolate-ink);
+  position: relative;
+}
+
+.section-chocolate {
+  background-color: var(--color-void);
+  color: var(--color-ink);
+  position: relative;
+}
+
+/* Grids for Cream & Chocolate */
+.bg-grid-cream {
   background-image:
-    linear-gradient(to right, rgba(244, 245, 247, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(244, 245, 247, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
+    linear-gradient(to right, rgba(42, 23, 16, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42, 23, 16, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-grid-chocolate {
+  background-image:
+    linear-gradient(to right, rgba(246, 238, 227, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(246, 238, 227, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 .bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
+}
+
+/* 3D Glassmorphic Cards */
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(42, 23, 16, 0.08);
+  box-shadow: 0 16px 36px -12px rgba(42, 23, 16, 0.06);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-light:hover {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(223, 157, 86, 0.45);
+  box-shadow: 0 24px 50px -10px rgba(42, 23, 16, 0.12), 0 0 24px rgba(223, 157, 86, 0.15);
+  transform: translateY(-2px);
+}
+
+.glass-card-dark {
+  background: rgba(27, 18, 13, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(246, 238, 227, 0.09);
+  box-shadow: 0 16px 40px -12px rgba(10, 7, 5, 0.8);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-dark:hover {
+  background: rgba(36, 24, 18, 0.9);
+  border-color: rgba(223, 157, 86, 0.4);
+  box-shadow: 0 25px 60px rgba(10, 7, 5, 0.9), 0 0 28px rgba(223, 157, 86, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Typography Gradient Utilities */
+.cream-title-gradient {
+  background: linear-gradient(135deg, #1b0f0a 0%, #3d271a 60%, #684832 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chocolate-title-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #fbf7ee 50%, #e2d2bd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.caramel-gradient-text {
+  background: linear-gradient(135deg, #e8a867 0%, #df9d56 60%, #c57e3a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .font-mono-tight {
@@ -92,7 +216,6 @@ body {
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -108,6 +231,6 @@ body {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 1px solid var(--color-cyan);
+  outline: 2px solid var(--color-caramel);
   outline-offset: 4px;
 }

@@ -27,16 +27,16 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     if (prefersReduced) return;
 
     const instance = new Lenis({
-      duration: 1.15,
+      duration: 0.9,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.15,
+      wheelMultiplier: 1.1,
+      touchMultiplier: 1.1,
       syncTouch: false,
     });
 
     lenisRef.current = instance;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time instance creation on mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLenis(instance);
 
     let rafId: number;

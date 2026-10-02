@@ -1,180 +1,103 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import { useSectionProgress } from "@/hooks/useScrollProgress";
-import { SectionLabel } from "@/components/ui/Atoms";
-import { AnimatedText } from "@/components/ui/AnimatedText";
-
 const PROCESS = [
   {
     number: "01",
     title: "DISCOVER",
-    summary: "Understand the problem.",
+    summary: "Deconstruct the core engineering challenge.",
     detail:
-      "We don't pitch solutions on the first call. We dig into the actual problem, existing systems, and what success looks like.",
-    color: "#4de8ff",
+      "We don't pitch generic templates. We analyze physical constraints, latency tolerances, data pipelines, and your exact business targets.",
+    color: "#df9d56",
   },
   {
     number: "02",
-    title: "DESIGN",
-    summary: "Define the experience.",
+    title: "ARCHITECT",
+    summary: "System design & mathematical models.",
     detail:
-      "Architecture, UX flows, and technical specs — written before code. Design is how we make systems predictable.",
-    color: "#8b7fff",
+      "Database schema, computer vision pipeline, API latency budgets, and hardware schematics — fully specified before writing code.",
+    color: "#fbf7ee",
   },
   {
     number: "03",
     title: "ENGINEER",
-    summary: "Build the system.",
+    summary: "Full-stack code & physical integration.",
     detail:
-      "Full-stack engineering: backend, frontend, mobile, infra — shipped incrementally and tested in production.",
-    color: "#3cff8e",
+      "Backend microservices, front-end WebGL interfaces, mobile apps, and edge hardware firmware developed in synchronized agile sprints.",
+    color: "#cca074",
   },
   {
     number: "04",
     title: "INTELLIGENCE",
-    summary: "Add automation and AI.",
+    summary: "Custom model training & neural optimization.",
     detail:
-      "Once the system exists, we layer in the intelligence: computer vision, NLP, or custom ML pipelines.",
-    color: "#ffb84d",
+      "Synthesizing datasets, training custom pose/cloth/NLP models, and quantizing weights for sub-20ms execution on target hardware.",
+    color: "#e8a867",
   },
   {
     number: "05",
-    title: "DEPLOY",
-    summary: "Launch and scale.",
+    title: "DEPLOY & SCALE",
+    summary: "Production rollout & fleet telemetry.",
     detail:
-      "CI/CD pipelines, monitoring, load testing — deployed on your infrastructure, managed by us.",
-    color: "#ff5470",
+      "Automated CI/CD pipelines, multi-tenant cloud orchestration, automated failovers, and 24/7 hardware telemetry monitoring.",
+    color: "#5cb88a",
   },
 ];
 
 export function ProcessSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const progress = useSectionProgress(sectionRef);
-
-  const activeStep = Math.min(
-    PROCESS.length - 1,
-    Math.floor(progress * PROCESS.length * 1.3)
-  );
-
   return (
     <section
-      ref={sectionRef}
       id="process"
-      className="relative bg-(--color-void) py-32 md:py-40"
+      className="relative bg-[#120B07] py-28 md:py-36 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-grid opacity-[0.12]" />
+      <div className="absolute inset-0 bg-grid-chocolate opacity-40" />
+      <div className="pointer-events-none absolute left-1/4 top-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(223,157,86,0.1)_0%,transparent_70%)] blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6 md:px-10">
-        <SectionLabel index="SYSTEM 11" label="Process" />
-        <AnimatedText
-          as="h2"
-          text="Idea → System → Reality"
-          className="mt-6 max-w-2xl font-display text-4xl font-medium tracking-tight text-(--color-ink) md:text-6xl"
-        />
-
-        {/* desktop: horizontal stepper */}
-        <div className="mt-20 hidden md:block">
-          {/* connector line */}
-          <div className="relative mb-12">
-            <div className="absolute top-3 left-0 right-0 h-px bg-(--color-surface-border)" />
-            <motion.div
-              className="absolute top-3 left-0 h-px"
-              style={{
-                backgroundColor: PROCESS[activeStep].color,
-                width: `${((activeStep + 1) / PROCESS.length) * 100}%`,
-                boxShadow: `0 0 12px ${PROCESS[activeStep].color}`,
-                transition: "width 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease",
-              }}
-            />
-            <div className="flex justify-between">
-              {PROCESS.map((step, i) => (
-                <div key={step.number} className="flex flex-col items-center">
-                  <motion.div
-                    animate={{
-                      scale: i === activeStep ? 1.3 : 1,
-                      backgroundColor:
-                        i <= activeStep ? step.color : "var(--color-void)",
-                      borderColor:
-                        i <= activeStep ? step.color : "var(--color-surface-border)",
-                    }}
-                    transition={{ duration: 0.4 }}
-                    className="h-6 w-6 rounded-full border"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* cards */}
-          <div className="grid grid-cols-5 gap-4">
-            {PROCESS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                animate={{
-                  opacity: i <= activeStep ? 1 : 0.25,
-                  y: i <= activeStep ? 0 : 12,
-                }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col gap-4 rounded-xl border border-(--color-surface-border) p-5"
-                style={{
-                  borderColor:
-                    i === activeStep ? step.color + "80" : undefined,
-                  background:
-                    i === activeStep ? step.color + "08" : undefined,
-                }}
-              >
-                <span className="font-mono-tight text-xs" style={{ color: step.color }}>
-                  {step.number}
-                </span>
-                <div>
-                  <p className="font-display text-lg font-medium text-(--color-ink)">
-                    {step.title}
-                  </p>
-                  <p className="mt-1 text-xs text-(--color-ink-faint)">{step.summary}</p>
-                </div>
-                <p className="text-xs leading-relaxed text-(--color-ink-dim)">
-                  {step.detail}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+        <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(246,238,227,0.15)] bg-[rgba(34,24,18,0.75)] px-3.5 py-1 backdrop-blur-md">
+          <span className="font-mono text-[10px] font-semibold text-(--color-caramel)">
+            SYSTEM 10
+          </span>
+          <span className="h-1 w-1 rounded-full bg-(--color-caramel)" />
+          <span className="font-mono text-[11px] font-medium tracking-widest uppercase text-[#D4C2AD]">
+            Engineering Lifecycle
+          </span>
         </div>
 
-        {/* mobile: vertical */}
-        <div className="mt-16 flex flex-col gap-0 md:hidden">
-          {PROCESS.map((step, i) => (
-            <div key={step.number} className="flex gap-5">
-              <div className="flex flex-col items-center">
-                <motion.div
-                  animate={{
-                    backgroundColor: i <= activeStep ? step.color : "transparent",
-                    borderColor: i <= activeStep ? step.color : "var(--color-surface-border)",
-                  }}
-                  className="h-5 w-5 shrink-0 rounded-full border"
-                />
-                {i < PROCESS.length - 1 && (
-                  <div
-                    className="mt-1 w-px flex-1 transition-colors duration-500"
-                    style={{
-                      backgroundColor:
-                        i < activeStep ? step.color + "60" : "var(--color-surface-border)",
-                      minHeight: "60px",
-                    }}
-                  />
-                )}
+        <h2 className="mt-8 max-w-2xl font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#FBF7EE]">
+          From Conception to Autonomous Reality.
+        </h2>
+        <p className="mt-4 max-w-xl text-base sm:text-lg text-[#D4C2AD]">
+          A structured 5-stage engineering lifecycle designed to turn ambitious technical concepts into reliable, production-ready software and machines.
+        </p>
+
+        {/* 5 Process Cards Grid — Clean, High Contrast & Always Readable */}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {PROCESS.map((step) => (
+            <div
+              key={step.number}
+              className="flex flex-col justify-between gap-4 rounded-3xl border border-[rgba(246,238,227,0.12)] bg-[rgba(27,18,13,0.85)] p-6 backdrop-blur-xl transition-all duration-300 hover:border-(--color-caramel) hover:shadow-[0_15px_40px_rgba(10,7,5,0.9)] hover:-translate-y-1"
+            >
+              <div>
+                <span className="font-mono text-xs font-bold" style={{ color: step.color }}>
+                  STEP {step.number}
+                </span>
+                <p className="font-display text-xl font-bold text-[#FBF7EE] mt-2">
+                  {step.title}
+                </p>
+                <p className="mt-1 font-mono text-[11px] font-semibold text-(--color-caramel)">
+                  {step.summary}
+                </p>
+                <p className="text-xs leading-relaxed text-[#D4C2AD] mt-3">
+                  {step.detail}
+                </p>
               </div>
 
-              <motion.div
-                animate={{ opacity: i <= activeStep ? 1 : 0.3 }}
-                className="pb-8 pt-0.5"
-              >
-                <span className="font-mono-tight text-xs" style={{ color: step.color }}>
-                  {step.number} — {step.title}
+              <div className="pt-3 border-t border-[rgba(246,238,227,0.06)] flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: step.color }} />
+                <span className="font-mono text-[9px] text-[#917C69] uppercase font-semibold">
+                  Phase 0{step.number} Completed
                 </span>
-                <p className="mt-2 text-sm text-(--color-ink-dim)">{step.detail}</p>
-              </motion.div>
+              </div>
             </div>
           ))}
         </div>

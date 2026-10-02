@@ -10,7 +10,6 @@ interface RobotAssemblyProps {
   lowPower?: boolean;
 }
 
-// Each part becomes visible at a scroll threshold
 const PARTS = [
   { name: "HEAD", threshold: 0.0 },
   { name: "TORSO", threshold: 0.12 },
@@ -24,7 +23,6 @@ const PARTS = [
 
 function RobotPart({
   visible,
-  progress,
   children,
   position,
 }: {
@@ -41,7 +39,6 @@ function RobotPart({
     const current = ref.current.scale.x;
     const next = current + (target - current) * delta * 5;
     ref.current.scale.setScalar(Math.max(0.001, next));
-    // drop in from above
     const targetY = position[1];
     const dropY = visible ? targetY : targetY + 2;
     ref.current.position.y += (dropY - ref.current.position.y) * delta * 5;
@@ -58,7 +55,6 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
   const groupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
 
-  // is a part assembled yet?
   const partVisible = (name: string) => {
     const part = PARTS.find((p) => p.name === name);
     return part ? scrollProgress >= part.threshold : false;
@@ -70,9 +66,7 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
     return Math.min(1, (scrollProgress - part.threshold) / 0.1);
   };
 
-  // fully assembled
   const assembled = scrollProgress >= 0.75;
-  // activated
   const activated = scrollProgress >= 0.88;
 
   useFrame((_, delta) => {
@@ -80,8 +74,8 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
     groupRef.current.rotation.y += (pointer.x * 0.6 - groupRef.current.rotation.y) * delta * 2;
   });
 
-  const glowColor = activated ? "#3cff8e" : "#4de8ff";
-  const wireColor = assembled ? "#4de8ff" : "#565a62";
+  const glowColor = activated ? "#5cb88a" : "#df9d56";
+  const wireColor = assembled ? "#df9d56" : "#8d7764";
 
   return (
     <group ref={groupRef}>
@@ -89,30 +83,29 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("HEAD")} progress={partProgress("HEAD")} position={[0, 1.8, 0]}>
         <mesh>
           <boxGeometry args={[0.6, 0.55, 0.5]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.8} />
         </mesh>
-        {/* eyes */}
-        {activated && (
+        {/* Optical Sensor Eyes */}
+        {activated ? (
           <>
             <mesh position={[-0.15, 0.05, 0.26]}>
               <sphereGeometry args={[0.07, 8, 8]} />
-              <meshBasicMaterial color={glowColor} transparent opacity={0.9} />
+              <meshBasicMaterial color={glowColor} transparent opacity={0.95} />
             </mesh>
             <mesh position={[0.15, 0.05, 0.26]}>
               <sphereGeometry args={[0.07, 8, 8]} />
-              <meshBasicMaterial color={glowColor} transparent opacity={0.9} />
+              <meshBasicMaterial color={glowColor} transparent opacity={0.95} />
             </mesh>
           </>
-        )}
-        {!activated && (
+        ) : (
           <>
             <mesh position={[-0.15, 0.05, 0.26]}>
               <sphereGeometry args={[0.06, 8, 8]} />
-              <meshBasicMaterial color="#4de8ff" transparent opacity={0.4} />
+              <meshBasicMaterial color="#df9d56" transparent opacity={0.5} />
             </mesh>
             <mesh position={[0.15, 0.05, 0.26]}>
               <sphereGeometry args={[0.06, 8, 8]} />
-              <meshBasicMaterial color="#4de8ff" transparent opacity={0.4} />
+              <meshBasicMaterial color="#df9d56" transparent opacity={0.5} />
             </mesh>
           </>
         )}
@@ -127,13 +120,13 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("TORSO")} progress={partProgress("TORSO")} position={[0, 0.85, 0]}>
         <mesh>
           <boxGeometry args={[0.85, 0.85, 0.55]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.65} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.75} />
         </mesh>
-        {/* core glow */}
+        {/* Core Reactor Glow */}
         {assembled && (
           <mesh>
             <boxGeometry args={[0.4, 0.4, 0.1]} />
-            <meshBasicMaterial color={glowColor} transparent opacity={0.15} />
+            <meshBasicMaterial color={glowColor} transparent opacity={0.25} />
           </mesh>
         )}
       </RobotPart>
@@ -142,12 +135,11 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("LEFT_ARM")} progress={partProgress("LEFT_ARM")} position={[-0.7, 0.7, 0]}>
         <mesh position={[0, -0.25, 0]}>
           <boxGeometry args={[0.22, 0.8, 0.22]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
         </mesh>
-        {/* hand */}
         <mesh position={[0, -0.7, 0]}>
           <sphereGeometry args={[0.14, 8, 8]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.5} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
         </mesh>
       </RobotPart>
 
@@ -155,11 +147,11 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("RIGHT_ARM")} progress={partProgress("RIGHT_ARM")} position={[0.7, 0.7, 0]}>
         <mesh position={[0, -0.25, 0]}>
           <boxGeometry args={[0.22, 0.8, 0.22]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
         </mesh>
         <mesh position={[0, -0.7, 0]}>
           <sphereGeometry args={[0.14, 8, 8]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.5} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
         </mesh>
       </RobotPart>
 
@@ -175,11 +167,11 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("LEFT_LEG")} progress={partProgress("LEFT_LEG")} position={[-0.28, -0.35, 0]}>
         <mesh position={[0, -0.3, 0]}>
           <boxGeometry args={[0.25, 0.75, 0.28]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
         </mesh>
         <mesh position={[0, -0.72, 0]}>
           <boxGeometry args={[0.3, 0.2, 0.35]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.5} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
         </mesh>
       </RobotPart>
 
@@ -187,11 +179,11 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
       <RobotPart visible={partVisible("RIGHT_LEG")} progress={partProgress("RIGHT_LEG")} position={[0.28, -0.35, 0]}>
         <mesh position={[0, -0.3, 0]}>
           <boxGeometry args={[0.25, 0.75, 0.28]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
         </mesh>
         <mesh position={[0, -0.72, 0]}>
           <boxGeometry args={[0.3, 0.2, 0.35]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.5} />
+          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
         </mesh>
       </RobotPart>
 
@@ -200,13 +192,12 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
         <>
           <mesh position={[0, 2.15, 0]} scale={partProgress("SENSORS")}>
             <coneGeometry args={[0.08, 0.2, 6]} />
-            <meshBasicMaterial color={glowColor} transparent opacity={0.7} />
+            <meshBasicMaterial color={glowColor} transparent opacity={0.8} />
           </mesh>
-          {/* side sensors */}
           {[-0.35, 0.35].map((x) => (
             <mesh key={x} position={[x, 1.95, 0.28]} scale={partProgress("SENSORS")}>
               <sphereGeometry args={[0.055, 8, 8]} />
-              <meshBasicMaterial color="#8b7fff" transparent opacity={0.7} />
+              <meshBasicMaterial color="#fbf7ee" transparent opacity={0.8} />
             </mesh>
           ))}
         </>
@@ -222,20 +213,20 @@ export function RobotAssembly({ scrollProgress, lowPower }: RobotAssemblyProps) 
               scale={partProgress("WHEELS")}
             >
               <cylinderGeometry args={[0.18, 0.18, 0.1, 12]} />
-              <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.6} />
+              <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.7} />
             </mesh>
           ))}
         </>
       )}
 
-      {/* global glow when activated */}
+      {/* Activation Aura */}
       {activated && (
         <mesh scale={2.5}>
           <sphereGeometry args={[0.5, 8, 8]} />
           <meshBasicMaterial
-            color="#3cff8e"
+            color="#5cb88a"
             transparent
-            opacity={0.04}
+            opacity={0.06}
             side={THREE.BackSide}
           />
         </mesh>

@@ -13,10 +13,10 @@ interface TechnologyCoreProps {
 }
 
 const SYSTEMS = [
-  { label: "SOFTWARE", color: "#4de8ff" },
-  { label: "AI", color: "#8b7fff" },
-  { label: "APPLICATIONS", color: "#3cff8e" },
-  { label: "ROBOTICS", color: "#ff5470" },
+  { label: "SOFTWARE", color: "#fbf7ee" },     // Silky Cream
+  { label: "AI & ML", color: "#df9d56" },      // Caramel Gold
+  { label: "APPLICATIONS", color: "#cca074" }, // Golden Mocha
+  { label: "ROBOTICS", color: "#e8a867" },     // Warm Amber
 ] as const;
 
 function CoreNode({
@@ -47,13 +47,14 @@ export function TechnologyCore({ splitProgress, lowPower }: TechnologyCoreProps)
   const group = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   const innerGlowRef = useRef<THREE.Mesh>(null);
+  const outerRingRef = useRef<THREE.Mesh>(null);
   const { pointer } = useThree();
 
   const orbitNodes = useMemo(() => {
     const n = lowPower ? 5 : 9;
     return new Array(n).fill(0).map((_, i) => {
       const angle = (i / n) * Math.PI * 2;
-      const radius = 1.5 + (i % 3) * 0.25;
+      const radius = 1.6 + (i % 3) * 0.25;
       const tilt = (i % 2 === 0 ? 1 : -1) * 0.35;
       return { angle, radius, tilt, speed: 0.15 + (i % 4) * 0.05 };
     });
@@ -71,16 +72,22 @@ export function TechnologyCore({ splitProgress, lowPower }: TechnologyCoreProps)
     if (coreRef.current) {
       const s = 1 - splitProgress * 0.55;
       coreRef.current.scale.setScalar(THREE.MathUtils.lerp(coreRef.current.scale.x, s, 0.1));
-      coreRef.current.rotation.y += delta * 0.1;
+      coreRef.current.rotation.y += delta * 0.12;
+      coreRef.current.rotation.z += delta * 0.08;
       const mat = coreRef.current.material as THREE.MeshBasicMaterial;
       mat.opacity = 1 - splitProgress;
     }
 
     if (innerGlowRef.current) {
-      const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.4) * 0.06;
+      const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.4) * 0.08;
       innerGlowRef.current.scale.setScalar(pulse * (1 - splitProgress * 0.6));
       const mat = innerGlowRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = (0.5 + Math.sin(state.clock.elapsedTime * 1.4) * 0.15) * (1 - splitProgress * 0.7);
+      mat.opacity = (0.55 + Math.sin(state.clock.elapsedTime * 1.4) * 0.15) * (1 - splitProgress * 0.7);
+    }
+
+    if (outerRingRef.current) {
+      outerRingRef.current.rotation.x += delta * 0.05;
+      outerRingRef.current.rotation.y -= delta * 0.08;
     }
   });
 
@@ -93,36 +100,47 @@ export function TechnologyCore({ splitProgress, lowPower }: TechnologyCoreProps)
 
   return (
     <group ref={group}>
-      <ParticleField count={lowPower ? 260 : 700} radius={5} />
+      <ParticleField count={lowPower ? 280 : 750} radius={5.5} color="#e2a05d" size={0.018} />
 
-      {/* central core */}
+      {/* Central Chocolate-Gold Core */}
       <mesh ref={coreRef}>
-        <icosahedronGeometry args={[0.85, 1]} />
-        <meshBasicMaterial color="#4de8ff" wireframe transparent opacity={1} />
-      </mesh>
-      <mesh ref={innerGlowRef}>
-        <icosahedronGeometry args={[0.6, 0]} />
-        <meshBasicMaterial color="#8b7fff" transparent opacity={0.4} />
+        <icosahedronGeometry args={[0.9, 1]} />
+        <meshBasicMaterial color="#df9d56" wireframe transparent opacity={0.85} />
       </mesh>
 
-      {/* orbiting nodes + connecting lines, fade out as split progresses */}
+      {/* Inner Cream Radiant Energy */}
+      <mesh ref={innerGlowRef}>
+        <icosahedronGeometry args={[0.62, 0]} />
+        <meshBasicMaterial color="#fbf7ee" transparent opacity={0.45} />
+      </mesh>
+
+      {/* Outer Torus Orbit */}
+      <mesh ref={outerRingRef} visible={splitProgress < 0.6}>
+        <torusGeometry args={[1.35, 0.015, 8, 48]} />
+        <meshBasicMaterial color="#c57e3a" transparent opacity={0.35 * (1 - splitProgress)} />
+      </mesh>
+
+      {/* Orbiting Nodes + Connecting Lines */}
       <group visible={splitProgress < 0.85}>
         {orbitNodes.map((n, i) => {
-          const t = 0; // static ring; motion applied via rotation offset in-shader-less way below
           const x = Math.cos(n.angle) * n.radius;
           const y = Math.sin(n.angle) * n.radius * 0.6 + n.tilt;
           const z = Math.sin(n.angle * 2) * 0.4;
           return (
             <group key={i}>
-              <CoreNode position={[x, y, z]} color={i % 2 === 0 ? "#4de8ff" : "#8b7fff"} scale={0.7} />
+              <CoreNode
+                position={[x, y, z]}
+                color={i % 2 === 0 ? "#df9d56" : "#fbf7ee"}
+                scale={0.7}
+              />
               <Line
                 points={[
                   [0, 0, 0],
                   [x, y, z],
                 ]}
-                color="#4de8ff"
+                color="#df9d56"
                 transparent
-                opacity={0.12 * (1 - splitProgress)}
+                opacity={0.15 * (1 - splitProgress)}
                 lineWidth={1}
               />
             </group>
@@ -130,7 +148,7 @@ export function TechnologyCore({ splitProgress, lowPower }: TechnologyCoreProps)
         })}
       </group>
 
-      {/* four systems the core splits into */}
+      {/* Four Systems the core splits into */}
       {splitProgress > 0.05 &&
         SYSTEMS.map((sys, i) => {
           const target = systemPositions[i];

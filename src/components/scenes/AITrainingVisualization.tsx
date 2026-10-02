@@ -9,8 +9,6 @@ interface AITrainingVisualizationProps {
   lowPower?: boolean;
 }
 
-const STAGES = ["DATASET", "TRAINING", "EVALUATION", "OPTIMIZATION", "MODEL", "DEPLOYMENT"];
-
 function useParticleSystem(count: number, seed: number) {
   return useMemo(() => {
     const rng = (n: number) => {
@@ -42,11 +40,8 @@ function useParticleSystem(count: number, seed: number) {
 export function AITrainingVisualization({ scrollProgress, lowPower }: AITrainingVisualizationProps) {
   const groupRef = useRef<THREE.Group>(null);
   const pointsRef = useRef<THREE.Points>(null);
-  const count = lowPower ? 200 : 512;
+  const count = lowPower ? 220 : 540;
   const { pos, target } = useParticleSystem(count, 7);
-  // store mutable positions in a ref for useFrame mutation without triggering re-renders
-  const posRef = useRef(new Float32Array(pos));
-  // stable initial array (not a ref) used only for the initial bufferAttribute creation
   const initialPos = useMemo(() => new Float32Array(pos), [pos]);
 
   useFrame((state, delta) => {
@@ -71,9 +66,9 @@ export function AITrainingVisualization({ scrollProgress, lowPower }: AITraining
   });
 
   const color = useMemo(() => {
-    if (scrollProgress < 0.33) return "#4de8ff";
-    if (scrollProgress < 0.66) return "#8b7fff";
-    return "#3cff8e";
+    if (scrollProgress < 0.33) return "#df9d56"; // Caramel
+    if (scrollProgress < 0.66) return "#fbf7ee"; // Cream
+    return "#5cb88a"; // Sage Emerald
   }, [scrollProgress]);
 
   return (
@@ -84,20 +79,20 @@ export function AITrainingVisualization({ scrollProgress, lowPower }: AITraining
         </bufferGeometry>
         <pointsMaterial
           color={color}
-          size={scrollProgress > 0.5 ? 0.04 : 0.06}
+          size={scrollProgress > 0.5 ? 0.045 : 0.065}
           transparent
-          opacity={0.7}
+          opacity={0.75}
           sizeAttenuation
           depthWrite={false}
         />
       </points>
 
-      {/* central glow — appears as model forms */}
+      {/* Central Chocolate-Caramel Crystal Lattice */}
       {scrollProgress > 0.6 && (
-        <mesh scale={scrollProgress * 0.8}>
+        <mesh scale={scrollProgress * 0.85}>
           <icosahedronGeometry args={[0.5, 1]} />
           <meshBasicMaterial
-            color="#3cff8e"
+            color="#df9d56"
             wireframe
             transparent
             opacity={(scrollProgress - 0.6) * 2}

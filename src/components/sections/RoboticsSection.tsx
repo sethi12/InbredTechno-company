@@ -1,108 +1,82 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
 import { ThreeScene } from "@/components/scenes/ThreeScene";
 import { RobotAssembly } from "@/components/scenes/RobotAssembly";
-import { useSectionProgress } from "@/hooks/useScrollProgress";
 import { useDeviceTier } from "@/hooks/useDeviceTier";
-import { SectionLabel } from "@/components/ui/Atoms";
-import { AnimatedText } from "@/components/ui/AnimatedText";
 
 const LABELS = [
-  { name: "VISION", desc: "Computer vision + depth sensing", color: "#4de8ff" },
-  { name: "MOTION", desc: "Servo + motor control", color: "#8b7fff" },
-  { name: "CONTROL", desc: "Real-time control loops", color: "#3cff8e" },
-  { name: "SENSORS", desc: "IMU, LIDAR, ultrasonic", color: "#ffb84d" },
-  { name: "AI", desc: "Edge inference on-device", color: "#ff5470" },
-  { name: "EDGE", desc: "Latency-optimized compute", color: "#4de8ff" },
+  { name: "VISION SENSORS", desc: "Depth cameras + stereo optical tracking", color: "#df9d56" },
+  { name: "KINEMATICS", desc: "Precision servo & brushless motor control", color: "#fbf7ee" },
+  { name: "CONTROL LOOPS", desc: "Sub-15ms deterministic edge loops", color: "#5cb88a" },
+  { name: "SENSOR FUSION", desc: "IMU, LiDAR & ultrasonic telemetry", color: "#e8a867" },
+  { name: "ON-DEVICE AI", desc: "Embedded inference on local accelerators", color: "#cca074" },
+  { name: "HARDWARE KIOSK", desc: "Industrial ruggedized gym & retail units", color: "#c57e3a" },
 ];
 
 export function RoboticsSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const progress = useSectionProgress(sectionRef);
   const tier = useDeviceTier();
-
-  const assembled = progress >= 0.72;
-  const activated = progress >= 0.88;
 
   return (
     <section
-      ref={sectionRef}
       id="robotics"
-      className="relative bg-(--color-void) py-32 md:py-48"
+      className="relative bg-[#120B07] py-28 md:py-36 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-grid opacity-[0.12]" />
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-1000"
-        style={{ opacity: activated ? 0.06 : 0 }}
-      >
-        <div className="h-full w-full bg-gradient-radial from-(--color-active) to-transparent" />
+      <div className="absolute inset-0 bg-grid-chocolate opacity-40" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(92,184,138,0.12)_0%,transparent_70%)]" />
+
+      {/* 3D Robot Assembly Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-45">
+        <ThreeScene cameraPosition={[0, 0.2, 5.5]} fov={46}>
+          <RobotAssembly scrollProgress={1.0} lowPower={tier === "low"} />
+        </ThreeScene>
       </div>
 
-      <div className="sticky top-0 mx-auto h-screen max-w-7xl px-6 md:px-10">
-        <div className="absolute inset-0">
-          <ThreeScene cameraPosition={[0, 0.2, 5.5]} fov={46}>
-            <RobotAssembly
-              scrollProgress={Math.min(1, progress * 1.15)}
-              lowPower={tier === "low"}
-            />
-          </ThreeScene>
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(246,238,227,0.15)] bg-[rgba(34,24,18,0.75)] px-3.5 py-1 backdrop-blur-md">
+          <span className="font-mono text-[10px] font-semibold text-(--color-caramel)">
+            SYSTEM 05
+          </span>
+          <span className="h-1 w-1 rounded-full bg-(--color-caramel)" />
+          <span className="font-mono text-[11px] font-medium tracking-widest uppercase text-[#D4C2AD]">
+            Robotics & Physical Computing
+          </span>
         </div>
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-6 md:p-10">
-          <div>
-            <SectionLabel index="SYSTEM 07" label="Robotics" light />
-            <motion.div
-              style={{ opacity: Math.max(0, 1 - progress * 2) }}
-              className="mt-8 max-w-xl"
-            >
-              <AnimatedText
-                as="h2"
-                text="We don't stop at software."
-                className="font-display text-4xl font-medium tracking-tight text-(--color-ink) md:text-6xl"
-              />
-              <p className="mt-6 max-w-md text-(--color-ink-dim)">
-                We build systems that can move, see, understand and interact
-                with the physical world. Software that becomes hardware.
-              </p>
-            </motion.div>
+        <div className="mt-8 max-w-2xl">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#FBF7EE]">
+            Software That Moves Into the Real World.
+          </h2>
+          <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#D4C2AD]">
+            We engineer physical machines that perceive, reason, and act in the physical world — including India&rsquo;s first AI gym robotics kiosk.
+          </p>
+        </div>
+
+        {/* Module Telemetry Grid */}
+        <div className="mt-14 space-y-4 max-w-4xl">
+          <div className="font-mono text-xs font-bold tracking-widest uppercase text-(--color-active) flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#5cb88a] shadow-[0_0_8px_#5cb88a]" />
+            ROBOTICS SYSTEM ONLINE — ALL SENSORS CALIBRATED
           </div>
 
-          {/* system labels — appear after assembly */}
-          <motion.div
-            animate={{ opacity: assembled ? 1 : 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <div
-              className="hud-label transition-colors duration-700"
-              style={{ color: activated ? "var(--color-active)" : "var(--color-cyan)" }}
-            >
-              {activated ? "SYSTEM ONLINE — ALL MODULES ACTIVE" : "ASSEMBLY COMPLETE — INITIALIZING"}
-            </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {LABELS.map((l) => (
-                <motion.div
-                  key={l.name}
-                  animate={{ opacity: assembled ? 1 : 0, y: assembled ? 0 : 10 }}
-                  transition={{ duration: 0.4 }}
-                  className="border border-(--color-surface-border) rounded p-3"
-                >
-                  <div
-                    className={`h-1.5 w-1.5 rounded-full mb-2 transition-colors duration-700`}
-                    style={{ backgroundColor: activated ? l.color : "var(--color-ink-faint)" }}
-                  />
-                  <p className="hud-label" style={{ color: l.color }}>
-                    {l.name}
-                  </p>
-                  <p className="hud-label mt-1 !text-[9px] text-(--color-ink-faint)">
-                    {l.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            {LABELS.map((l) => (
+              <div
+                key={l.name}
+                className="rounded-2xl border border-[rgba(246,238,227,0.12)] bg-[rgba(27,18,13,0.85)] p-4 backdrop-blur-xl transition-all hover:border-(--color-caramel)/40 hover:shadow-lg"
+              >
+                <div
+                  className="h-2 w-2 rounded-full mb-2"
+                  style={{ backgroundColor: l.color, boxShadow: `0 0 8px ${l.color}` }}
+                />
+                <p className="font-mono text-[11px] font-bold tracking-wider" style={{ color: l.color }}>
+                  {l.name}
+                </p>
+                <p className="font-mono text-[10px] text-[#917C69] mt-1 leading-relaxed">
+                  {l.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

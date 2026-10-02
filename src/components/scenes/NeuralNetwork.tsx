@@ -11,11 +11,11 @@ interface NeuralNetworkProps {
 }
 
 const LAYERS = [
-  { name: "DATA", x: -3, color: "#4de8ff", nodeCount: 8 },
-  { name: "TRAINING", x: -1.5, color: "#8b7fff", nodeCount: 12 },
-  { name: "MODEL", x: 0, color: "#3cff8e", nodeCount: 16 },
-  { name: "INFERENCE", x: 1.5, color: "#ffb84d", nodeCount: 12 },
-  { name: "PRODUCT", x: 3, color: "#ff5470", nodeCount: 8 },
+  { name: "VISION INGEST", x: -3, color: "#df9d56", nodeCount: 8 },
+  { name: "FEATURE EXTRACTION", x: -1.5, color: "#fbf7ee", nodeCount: 12 },
+  { name: "TRANSFORMER / CNN", x: 0, color: "#e8a867", nodeCount: 16 },
+  { name: "LATENT EMBEDDING", x: 1.5, color: "#cca074", nodeCount: 12 },
+  { name: "INFERENCE DECISION", x: 3, color: "#c57e3a", nodeCount: 8 },
 ];
 
 interface Particle {
@@ -38,19 +38,19 @@ function NetworkNode({
 }) {
   const ref = useRef<THREE.Mesh>(null);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (ref.current) {
       const pulse = 1 + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.15;
       ref.current.scale.setScalar(scale * pulse * progress);
       const mat = ref.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.6 * progress;
+      mat.opacity = 0.65 * progress;
     }
   });
 
   return (
     <mesh ref={ref} position={position}>
       <sphereGeometry args={[0.08, 8, 8]} />
-      <meshBasicMaterial color={color} transparent opacity={0.6} />
+      <meshBasicMaterial color={color} transparent opacity={0.65} />
     </mesh>
   );
 }
@@ -59,8 +59,7 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
   const groupRef = useRef<THREE.Group>(null);
   const particlesRef = useRef<Particle[]>([]);
 
-  // Generate network nodes
-  /* eslint-disable react-hooks/purity -- deliberate one-time randomized layout */
+  /* eslint-disable react-hooks/purity */
   const nodes = useMemo(() => {
     const nodeList: Array<{
       position: [number, number, number];
@@ -81,7 +80,6 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
   }, []);
   /* eslint-enable react-hooks/purity */
 
-  // Initialize particles on first frame (safe for refs outside render)
   const particlesInitialized = useRef(false);
 
   useFrame((state, delta) => {
@@ -90,11 +88,10 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
       groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.15;
     }
 
-    // one-time particle initialization on first frame
     if (!particlesInitialized.current && nodes.length > 0) {
       particlesInitialized.current = true;
-      /* eslint-disable react-hooks/purity -- deliberate one-time initialization */
-      particlesRef.current = Array.from({ length: lowPower ? 20 : 60 }, () => {
+      /* eslint-disable react-hooks/purity */
+      particlesRef.current = Array.from({ length: lowPower ? 24 : 64 }, () => {
         const startLayer = Math.floor(Math.random() * (LAYERS.length - 1));
         const startNode = nodes[nodes.findIndex((n) => n.layer === startLayer)];
         const endNode = nodes[nodes.findIndex((n) => n.layer === startLayer + 1)];
@@ -110,7 +107,6 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
       /* eslint-enable react-hooks/purity */
     }
 
-    // animate particles
     particlesRef.current.forEach((p) => {
       p.progress += delta * (0.3 + scrollProgress * 0.4);
       if (p.progress > 1) {
@@ -135,11 +131,9 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
     });
   });
 
-  const layerProgress = Math.min(1, scrollProgress * 1.3);
-
   return (
     <group ref={groupRef}>
-      {/* nodes */}
+      {/* Nodes */}
       {nodes.map((n, i) => (
         <NetworkNode
           key={i}
@@ -150,10 +144,9 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
         />
       ))}
 
-      {/* connections */}
+      {/* Connections */}
       {LAYERS.map((layer, i) => {
         if (i === LAYERS.length - 1) return null;
-        const nextLayer = LAYERS[i + 1];
         const currentNodes = nodes.filter((n) => n.layer === i);
         const nextNodes = nodes.filter((n) => n.layer === i + 1);
 
@@ -170,8 +163,8 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
                   points={[n.position, target.position]}
                   color={n.color}
                   transparent
-                  opacity={Math.min(1, (scrollProgress - i * 0.08) * 0.25)}
-                  lineWidth={0.8}
+                  opacity={Math.min(1, (scrollProgress - i * 0.08) * 0.3)}
+                  lineWidth={0.9}
                 />
               );
             })}
@@ -179,15 +172,15 @@ export function NeuralNetwork({ scrollProgress, lowPower }: NeuralNetworkProps) 
         );
       })}
 
-      {/* data particles */}
-      {/* eslint-disable react-hooks/refs -- safe: particles initialized on first frame before render */}
+      {/* Data Pulse Particles */}
+      {/* eslint-disable react-hooks/refs */}
       {particlesRef.current.map((p, i) => (
         <mesh key={i} position={p.position}>
-          <sphereGeometry args={[0.04, 6, 6]} />
+          <sphereGeometry args={[0.045, 6, 6]} />
           <meshBasicMaterial
-            color="#4de8ff"
+            color="#df9d56"
             transparent
-            opacity={Math.max(0, 1 - Math.abs(p.progress - 0.5) * 2) * scrollProgress * 0.8}
+            opacity={Math.max(0, 1 - Math.abs(p.progress - 0.5) * 2) * scrollProgress * 0.9}
           />
         </mesh>
       ))}

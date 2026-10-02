@@ -71,19 +71,19 @@ function DeviceMockup({
       {/* bezel/frame */}
       <mesh>
         <boxGeometry
-          args={[device.width + device.bezel * 2, device.height + device.bezel * 2, device.depth + 0.003]}
+          args={[
+            device.width + device.bezel * 2,
+            device.height + device.bezel * 2,
+            device.depth + 0.003,
+          ]}
         />
-        <meshBasicMaterial color={color} wireframe opacity={0.5} transparent />
+        <meshBasicMaterial color={color} wireframe opacity={0.6} transparent />
       </mesh>
 
       {/* screen area */}
       <mesh position={[0, 0, device.depth * 0.6]}>
         <planeGeometry args={[device.width, device.height]} />
-        <meshBasicMaterial
-          color={color}
-          transparent
-          opacity={0.12}
-        />
+        <meshBasicMaterial color={color} transparent opacity={0.14} />
       </mesh>
 
       {/* screen grid lines */}
@@ -106,7 +106,7 @@ function DeviceMockup({
                 ]}
               />
             </bufferGeometry>
-            <lineBasicMaterial color={color} transparent opacity={0.25} />
+            <lineBasicMaterial color={color} transparent opacity={0.3} />
           </lineSegments>
         </>
       )}
@@ -125,9 +125,6 @@ export function DeviceScene({ scrollProgress, lowPower }: DeviceSceneProps) {
     }
   });
 
-  // camera orbit as scroll progresses
-  const cameraAngle = scrollProgress * Math.PI * 2;
-
   return (
     <group ref={groupRef}>
       <DeviceMockup
@@ -135,7 +132,7 @@ export function DeviceScene({ scrollProgress, lowPower }: DeviceSceneProps) {
         position={[-1.2, 0.3, 0]}
         rotation={[0.15, -0.5, 0.08]}
         scale={1}
-        color="#4de8ff"
+        color="#df9d56"
         progress={Math.min(1, scrollProgress * 1.2)}
       />
       <DeviceMockup
@@ -143,7 +140,7 @@ export function DeviceScene({ scrollProgress, lowPower }: DeviceSceneProps) {
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
         scale={1.1}
-        color="#8b7fff"
+        color="#fbf7ee"
         progress={Math.min(1, scrollProgress * 1.2 - 0.1)}
       />
       <DeviceMockup
@@ -151,7 +148,7 @@ export function DeviceScene({ scrollProgress, lowPower }: DeviceSceneProps) {
         position={[1.2, -0.25, 0]}
         rotation={[-0.1, 0.5, -0.08]}
         scale={1}
-        color="#3cff8e"
+        color="#cca074"
         progress={Math.min(1, scrollProgress * 1.2 - 0.2)}
       />
     </group>

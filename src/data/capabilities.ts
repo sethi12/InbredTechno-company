@@ -1,6 +1,7 @@
 export interface Capability {
   index: string;
   title: string;
+  tagline: string;
   description: string;
   stack: string[];
   color: string;
@@ -9,42 +10,47 @@ export interface Capability {
 export const CAPABILITIES: Capability[] = [
   {
     index: "01",
-    title: "SaaS Products",
+    title: "AI & Machine Learning",
+    tagline: "Computer Vision · Neural Architectures · Edge Inference",
     description:
-      "Multi-tenant platforms built to scale — from auth and billing to the dashboards teams live in every day.",
-    stack: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
-    color: "#4de8ff",
+      "We design, train, and deploy production-grade neural networks, real-time pose estimation, computer vision, and autonomous agent loops that perform in milliseconds on both cloud and edge hardware.",
+    stack: ["PyTorch", "MediaPipe", "OpenCV", "TensorFlow", "Groq", "CUDA"],
+    color: "#df9d56", // Caramel Gold
   },
   {
     index: "02",
-    title: "Applications",
+    title: "Autonomous Robotics",
+    tagline: "Sensor Fusion · Hardware Integration · Real-Time Control",
     description:
-      "iOS, Android and web applications engineered for real people, not app-store screenshots.",
-    stack: ["Flutter", "React Native", "Firebase", "Swift"],
-    color: "#8b7fff",
+      "Physical machines powered by intelligent software. We engineer hardware kiosks, kinematic control systems, LIDAR/camera fusion, and low-latency motor actuation pipelines.",
+    stack: ["Edge AI", "WebRTC", "C++ Engine", "ROS/Micro-ROS", "MQTT", "Embedded Linux"],
+    color: "#e8a867", // Warm Amber
   },
   {
     index: "03",
-    title: "AI & Machine Learning",
+    title: "Intelligent SaaS Platforms",
+    tagline: "Multi-Tenant Cloud · Microservices · High Concurrency",
     description:
-      "Computer vision, NLP and custom model training pipelines, deployed as products — not notebooks.",
-    stack: ["PyTorch", "OpenCV", "Groq", "TensorFlow"],
-    color: "#3cff8e",
+      "Enterprise-scale multi-tenant architectures engineered for fault-tolerant operation, automated billing, 3D interactive visualizations, and high-throughput data processing.",
+    stack: ["Next.js", "Node.js", "PostgreSQL", "Docker", "Stripe", "Redis"],
+    color: "#f5eedf", // Silky Cream
   },
   {
     index: "04",
-    title: "Automation",
+    title: "High-Performance Applications",
+    tagline: "iOS · Android · Interactive Web Experiences",
     description:
-      "Systems that remove the repetitive work between your data, your tools and your team.",
-    stack: ["Python", "APIs", "Workflows", "Cloud Functions"],
-    color: "#ffb84d",
+      "Native and cross-platform mobile and web applications built with 60fps animations, custom video transcoding engines, real-time sync, and bespoke user experiences.",
+    stack: ["Flutter", "React Native", "Three.js", "Swift", "WebSockets", "Firebase"],
+    color: "#cca074", // Golden Mocha
   },
   {
     index: "05",
-    title: "Robotics",
+    title: "Intelligent Automation & IoT",
+    tagline: "Workflow Orchestration · Data Pipelines · Fleet Telemetry",
     description:
-      "Vision, motion and control systems for machines that operate in the physical world.",
-    stack: ["MediaPipe", "WebRTC", "Edge Compute", "Sensors"],
-    color: "#ff5470",
+      "Eliminating manual friction between distributed hardware devices, enterprise databases, cloud services, and operational command centers.",
+    stack: ["Python", "Rust", "TimescaleDB", "Cloud Functions", "GraphQL", "Kafka"],
+    color: "#c57e3a", // Luxury Bronze
   },
 ];

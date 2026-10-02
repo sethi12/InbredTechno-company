@@ -11,12 +11,12 @@ interface SaaSArchitectureProps {
 }
 
 const MODULES = [
-  { label: "API", color: "#4de8ff", angle: 0 },
-  { label: "AUTH", color: "#8b7fff", angle: Math.PI / 3 },
-  { label: "PAYMENTS", color: "#3cff8e", angle: (Math.PI / 3) * 2 },
-  { label: "DATABASE", color: "#ffb84d", angle: Math.PI },
-  { label: "ANALYTICS", color: "#ff5470", angle: (Math.PI / 3) * 4 },
-  { label: "NOTIFICATIONS", color: "#4de8ff", angle: (Math.PI / 3) * 5 },
+  { label: "API GATEWAY", color: "#df9d56", angle: 0 },
+  { label: "AUTH & RBAC", color: "#fbf7ee", angle: Math.PI / 3 },
+  { label: "BILLING / STRIPE", color: "#5cb88a", angle: (Math.PI / 3) * 2 },
+  { label: "POSTGRES / REDIS", color: "#e8a867", angle: Math.PI },
+  { label: "REALTIME ANALYTICS", color: "#cca074", angle: (Math.PI / 3) * 4 },
+  { label: "3D VISUALIZER", color: "#c57e3a", angle: (Math.PI / 3) * 5 },
 ];
 
 function SaaSPanel({
@@ -42,22 +42,22 @@ function SaaSPanel({
   return (
     <group ref={ref} position={position}>
       <mesh scale={progress}>
-        <boxGeometry args={[0.35, 0.28, 0.04]} />
+        <boxGeometry args={[0.38, 0.28, 0.04]} />
         <meshBasicMaterial
           color={color}
           wireframe
           transparent
-          opacity={0.4 + progress * 0.3}
+          opacity={0.45 + progress * 0.35}
         />
       </mesh>
       <mesh scale={progress} position={[0, 0, 0.03]}>
-        <planeGeometry args={[0.31, 0.24]} />
-        <meshBasicMaterial color={color} transparent opacity={0.08} />
+        <planeGeometry args={[0.34, 0.24]} />
+        <meshBasicMaterial color={color} transparent opacity={0.12} />
       </mesh>
       {progress > 0.6 && (
         <Text
           position={[0, 0, 0.04]}
-          fontSize={0.08}
+          fontSize={0.065}
           color={color}
           anchorX="center"
           anchorY="middle"
@@ -78,7 +78,7 @@ export function SaaSArchitecture({ scrollProgress, lowPower }: SaaSArchitectureP
   const panelCount = lowPower ? 4 : 6;
 
   const panelPositions = useMemo(() => {
-    return MODULES.slice(0, panelCount).map((m, i) => {
+    return MODULES.slice(0, panelCount).map((m) => {
       const radius = 2.2;
       const x = Math.cos(m.angle) * radius;
       const y = Math.sin(m.angle) * radius;
@@ -94,7 +94,6 @@ export function SaaSArchitecture({ scrollProgress, lowPower }: SaaSArchitectureP
     }
   });
 
-  // Each panel appears sequentially as scroll progresses
   const getProgressForPanel = (i: number) => {
     const start = i / panelCount;
     const end = (i + 1) / panelCount;
@@ -103,18 +102,18 @@ export function SaaSArchitecture({ scrollProgress, lowPower }: SaaSArchitectureP
 
   return (
     <group ref={groupRef}>
-      {/* central core */}
+      {/* Central Chocolate-Caramel Core */}
       <mesh>
-        <sphereGeometry args={[0.3, 16, 16]} />
+        <sphereGeometry args={[0.32, 16, 16]} />
         <meshBasicMaterial
-          color="#4de8ff"
+          color="#df9d56"
           wireframe
           transparent
-          opacity={0.6}
+          opacity={0.7}
         />
       </mesh>
 
-      {/* connecting lines and panels */}
+      {/* Connecting Lines and Panels */}
       {MODULES.slice(0, panelCount).map((m, i) => {
         const pos = panelPositions[i];
         const progress = getProgressForPanel(i);
@@ -127,7 +126,7 @@ export function SaaSArchitecture({ scrollProgress, lowPower }: SaaSArchitectureP
               ]}
               color={m.color}
               transparent
-              opacity={progress * 0.35}
+              opacity={progress * 0.4}
               lineWidth={1.5}
             />
             <SaaSPanel

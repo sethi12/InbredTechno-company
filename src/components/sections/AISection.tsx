@@ -1,92 +1,99 @@
 "use client";
 
-import { useRef } from "react";
 import { motion } from "framer-motion";
-import { ThreeScene, SceneFallback } from "@/components/scenes/ThreeScene";
+import { ThreeScene } from "@/components/scenes/ThreeScene";
 import { NeuralNetwork } from "@/components/scenes/NeuralNetwork";
-import { useSectionProgress } from "@/hooks/useScrollProgress";
 import { useDeviceTier } from "@/hooks/useDeviceTier";
-import { SectionLabel, HudLabel } from "@/components/ui/Atoms";
-import { AnimatedText } from "@/components/ui/AnimatedText";
+import { Eye, Sparkles, Brain, Activity, Bot, MessageSquareCode } from "lucide-react";
 
 const AI_CAPABILITIES = [
-  { name: "Computer Vision", desc: "Image recognition & analysis" },
-  { name: "NLP", desc: "Language understanding" },
-  { name: "Generative AI", desc: "Content creation" },
-  { name: "Recommendation", desc: "Personalization" },
-  { name: "Predictive", desc: "Forecasting" },
-  { name: "AI Agents", desc: "Autonomous systems" },
+  { name: "Computer Vision & Pose AI", desc: "Sub-20ms 33-point body kinematics & tracking", icon: Eye },
+  { name: "Neural Cloth Simulation", desc: "Real-time 3D garment deformation & AR mirror", icon: Sparkles },
+  { name: "Edge Model Quantization", desc: "Low-power TensorRT & ONNX execution on device", icon: Brain },
+  { name: "Biomechanical Recognition", desc: "13+ real-time movement pattern classifiers", icon: Activity },
+  { name: "Autonomous Decision Loops", desc: "State machines & multi-modal agent frameworks", icon: Bot },
+  { name: "Custom Model Training", desc: "Full dataset synthesis to production inference", icon: MessageSquareCode },
 ];
 
 export function AISection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const progress = useSectionProgress(sectionRef);
   const tier = useDeviceTier();
 
   return (
-    <section ref={sectionRef} id="ai" className="relative bg-(--color-void) py-32 md:py-48">
-      <div className="absolute inset-0 bg-grid opacity-[0.12]" />
-      <div className="pointer-events-none absolute -left-40 top-1/3 h-96 w-96 rounded-full bg-(--color-violet)/8 blur-[120px]" />
+    <section id="ai" className="relative bg-[#120B07] py-28 md:py-36 overflow-hidden">
+      <div className="absolute inset-0 bg-grid-chocolate opacity-40" />
+      <div className="pointer-events-none absolute -left-40 top-1/3 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(223,157,86,0.12)_0%,transparent_70%)] blur-3xl" />
 
-      <div className="sticky top-0 mx-auto h-screen max-w-7xl px-6 md:px-10">
-        <div className="absolute inset-0">
-          <ThreeScene cameraPosition={[0, 0, 8]} fov={45}>
-            <NeuralNetwork scrollProgress={Math.min(1, progress * 1.3)} lowPower={tier === "low"} />
-          </ThreeScene>
+      {/* Ambient 3D Neural Scene Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <ThreeScene cameraPosition={[0, 0, 8]} fov={45}>
+          <NeuralNetwork scrollProgress={0.8} lowPower={tier === "low"} />
+        </ThreeScene>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(246,238,227,0.15)] bg-[rgba(34,24,18,0.75)] px-3.5 py-1 backdrop-blur-md">
+          <span className="font-mono text-[10px] font-semibold text-(--color-caramel)">
+            SYSTEM 03
+          </span>
+          <span className="h-1 w-1 rounded-full bg-(--color-caramel)" />
+          <span className="font-mono text-[11px] font-medium tracking-widest uppercase text-[#D4C2AD]">
+            Artificial Intelligence
+          </span>
         </div>
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-6 md:p-10">
-          <div>
-            <SectionLabel index="SYSTEM 05" label="Intelligence" light />
-            <motion.div
-              style={{ opacity: Math.max(0, 1 - progress * 1.8) }}
-              className="mt-8 max-w-2xl"
-            >
-              <AnimatedText
-                as="h2"
-                text="Intelligence, engineered."
-                className="font-display text-5xl font-medium tracking-tight text-(--color-ink) md:text-6xl"
-              />
-              <p className="mt-6 max-w-md text-(--color-ink-dim)">
-                Not notebooks. Not experiments. We build AI systems that ship
-                and scale. From custom models to production inference.
-              </p>
-            </motion.div>
-          </div>
+        <div className="mt-8 max-w-2xl">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#FBF7EE]">
+            Intelligence Engineered for Production.
+          </h2>
+          <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#D4C2AD]">
+            Not Jupyter notebooks. Not toy demos. We engineer production AI architectures that execute sub-20ms inference inside commercial hardware kiosks, mobile apps, and cloud SaaS platforms.
+          </p>
+        </div>
 
-          <motion.div
-            style={{ opacity: Math.min(1, (progress - 0.4) * 2) }}
-            className="space-y-8"
-          >
-            <div>
-              <HudLabel className="mb-4 text-(--color-cyan)">CORE CAPABILITIES</HudLabel>
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                {AI_CAPABILITIES.map((cap) => (
+        {/* Core Neural & Vision Capabilities Grid */}
+        <div className="mt-14 space-y-6 max-w-4xl">
+          <div>
+            <div className="font-mono text-xs font-bold tracking-widest text-(--color-caramel) uppercase mb-4">
+              CORE NEURAL & VISION CAPABILITIES
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+              {AI_CAPABILITIES.map((cap) => {
+                const CapIcon = cap.icon;
+                return (
                   <div
                     key={cap.name}
-                    className="border border-(--color-surface-border) rounded p-3"
+                    className="flex flex-col gap-2 rounded-2xl border border-[rgba(246,238,227,0.12)] bg-[rgba(27,18,13,0.85)] p-4 backdrop-blur-xl transition-all hover:border-(--color-caramel)/50 hover:shadow-lg"
                   >
-                    <p className="hud-label text-(--color-ink)">{cap.name}</p>
-                    <p className="hud-label mt-1 text-[9px] text-(--color-ink-faint)">
+                    <div className="flex items-center gap-2">
+                      <CapIcon size={16} className="text-(--color-caramel)" />
+                      <p className="font-mono text-[11px] font-bold tracking-wider text-[#FBF7EE]">
+                        {cap.name}
+                      </p>
+                    </div>
+                    <p className="font-mono text-[10px] text-[#917C69] leading-relaxed">
                       {cap.desc}
                     </p>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
+          </div>
 
-            <div>
-              <HudLabel className="text-(--color-cyan)">PIPELINE</HudLabel>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                {["DATA", "TRAINING", "MODEL", "INFERENCE", "PRODUCT"].map((stage, i) => (
-                  <div key={stage} className="flex items-center gap-2">
-                    <span className="hud-label text-(--color-ink-faint)">{stage}</span>
-                    {i < 4 && <span className="text-(--color-cyan)">→</span>}
-                  </div>
-                ))}
-              </div>
+          <div className="rounded-2xl border border-[rgba(246,238,227,0.12)] bg-[rgba(24,17,12,0.85)] p-5 backdrop-blur-xl">
+            <div className="font-mono text-[10px] font-bold tracking-widest text-(--color-caramel) uppercase">
+              END-TO-END INFERENCE PIPELINE
             </div>
-          </motion.div>
+            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
+              {["DATA INGESTION", "CUSTOM TRAINING", "WEIGHT QUANTIZATION", "EDGE INFERENCE", "CLIENT INTEGRATION"].map((stage, i) => (
+                <div key={stage} className="flex items-center gap-2">
+                  <span className="font-mono text-[10px] font-bold text-[#D4C2AD]">
+                    {stage}
+                  </span>
+                  {i < 4 && <span className="text-(--color-caramel) font-bold">→</span>}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

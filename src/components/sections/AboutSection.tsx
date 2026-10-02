@@ -1,165 +1,153 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useSectionProgress } from "@/hooks/useScrollProgress";
-import { SectionLabel } from "@/components/ui/Atoms";
-import { AnimatedText } from "@/components/ui/AnimatedText";
+import { ShieldCheck, Award, Globe2, Sparkles } from "lucide-react";
 
 const PILLARS = [
   {
     id: "software",
-    title: "SOFTWARE",
-    desc: "Interfaces, APIs, platforms and systems that actually work.",
-    color: "#4de8ff",
+    title: "INTELLIGENT SOFTWARE",
+    desc: "Robust cloud APIs, multi-tenant SaaS platforms, and bespoke WebGL interfaces built for heavy scale.",
+    color: "#fbf7ee",
     angle: -120,
   },
   {
     id: "intelligence",
-    title: "INTELLIGENCE",
-    desc: "Vision, language, prediction. AI that ships.",
-    color: "#8b7fff",
+    title: "PRODUCTION AI & ML",
+    desc: "Computer vision, 33-point pose kinematics, cloth deformation, and neural edge inference running sub-20ms.",
+    color: "#df9d56",
     angle: 0,
   },
   {
     id: "machines",
-    title: "MACHINES",
-    desc: "Robots, edge devices, and systems in the physical world.",
-    color: "#3cff8e",
+    title: "AUTONOMOUS ROBOTICS",
+    desc: "Hardware kiosks, sensor fusion, LiDAR integration, and deterministic physical control loops.",
+    color: "#cca074",
     angle: 120,
   },
 ];
 
 export function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const progress = useSectionProgress(sectionRef);
-
-  // convergence: pillars spread at 0, merge toward center at 1
-  const spread = Math.max(0, 1 - progress * 1.6);
-
   return (
     <section
-      ref={sectionRef}
       id="about"
-      className="relative bg-(--color-void) py-32 md:py-48"
+      className="relative bg-[#120B07] py-28 md:py-36 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-grid opacity-[0.12]" />
+      <div className="absolute inset-0 bg-grid-chocolate opacity-40" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(223,157,86,0.1)_0%,transparent_70%)] blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6 md:px-10">
-        <SectionLabel index="SYSTEM 12" label="About" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(246,238,227,0.15)] bg-[rgba(34,24,18,0.75)] px-3.5 py-1 backdrop-blur-md">
+          <span className="font-mono text-[10px] font-semibold text-(--color-caramel)">
+            SYSTEM 12
+          </span>
+          <span className="h-1 w-1 rounded-full bg-(--color-caramel)" />
+          <span className="font-mono text-[11px] font-medium tracking-widest uppercase text-[#D4C2AD]">
+            About InbredTechno
+          </span>
+        </div>
 
-        <div className="mt-16 grid items-center gap-16 md:grid-cols-2 md:gap-24">
-          {/* Three merging circles — CSS animation */}
-          <div className="relative flex h-80 items-center justify-center md:h-[480px]">
+        <div className="mt-12 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* Three Converging Pillars Visualizer with central logo.png */}
+          <div className="relative flex h-80 items-center justify-center md:h-[440px]">
             {PILLARS.map((p) => {
               const rad = ((p.angle - 90) * Math.PI) / 180;
-              const distance = 100 * spread;
+              const distance = 85;
               const tx = Math.cos(rad) * distance;
               const ty = Math.sin(rad) * distance;
 
               return (
-                <motion.div
+                <div
                   key={p.id}
-                  className="absolute flex h-48 w-48 flex-col items-center justify-center rounded-full border text-center md:h-56 md:w-56"
+                  className="absolute flex h-44 w-44 flex-col items-center justify-center rounded-full border text-center md:h-56 md:w-56 backdrop-blur-md"
                   style={{
                     borderColor: p.color,
-                    background: `radial-gradient(circle, ${p.color}14, transparent 70%)`,
-                    x: tx,
-                    y: ty,
-                    mixBlendMode: "screen",
-                    transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                    boxShadow: `0 0 80px ${p.color}22, inset 0 0 40px ${p.color}11`,
+                    background: `radial-gradient(circle, ${p.color}15, rgba(24,17,12,0.6) 70%)`,
+                    transform: `translate3d(${tx}px, ${ty}px, 0)`,
+                    boxShadow: `0 0 40px ${p.color}20, inset 0 0 20px ${p.color}10`,
                   }}
                 >
                   <span
-                    className="font-display text-sm font-medium"
+                    className="font-mono text-xs font-bold tracking-wider px-4 uppercase"
                     style={{ color: p.color }}
                   >
                     {p.title}
                   </span>
-                </motion.div>
+                </div>
               );
             })}
 
-            {/* center: logo appears as three pillars converge */}
-            <motion.div
-              animate={{
-                opacity: Math.min(1, (1 - spread) * 1.6),
-                scale: 0.6 + Math.min(0.4, (1 - spread) * 0.6),
-              }}
-              className="absolute z-10 flex flex-col items-center"
-            >
-              <Image
-                src="/logo-transparent.png"
-                alt="InbredTechno"
-                width={72}
-                height={87}
-                className="object-contain"
-              />
-            </motion.div>
+            {/* Central convergence logo.png */}
+            <div className="relative z-20 flex flex-col items-center justify-center h-24 w-24 rounded-full bg-[rgba(24,17,12,0.95)] border border-[rgba(223,157,86,0.4)] shadow-[0_0_40px_rgba(223,157,86,0.4)]">
+              <div className="relative h-14 w-14">
+                <Image
+                  src="/logo.png"
+                  alt="InbredTechno"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* copy */}
+          {/* About Copy */}
           <div>
-            <AnimatedText
-              as="h2"
-              text="We are builders."
-              className="font-display text-5xl font-medium tracking-tight text-(--color-ink) md:text-6xl"
-            />
+            <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#FBF7EE]">
+              We Are Architects of Intelligent Technology.
+            </h2>
 
-            <div className="mt-8 space-y-6 text-(--color-ink-dim)">
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-[#D4C2AD]">
               <p>
-                InbredTechno is a technology company, not an agency. We don&rsquo;t
-                manage campaigns, write content, or rebrand logos. We build the
-                systems that power businesses.
+                InbredTechno is a technology and product engineering company. We don&rsquo;t build surface-level templates or unscalable experiments — we engineer full-stack systems that power real-world businesses.
               </p>
               <p>
-                Software. Intelligence. Machines. Three things that used to
-                belong to three separate industries — we build all three, and
-                we build them to work together.
+                <strong className="text-[#FBF7EE] font-semibold">Software. Artificial Intelligence. Physical Robotics.</strong> Three historically separate disciplines that we merge into cohesive, high-performance technology ecosystems.
               </p>
-              <p className="text-(--color-ink)">
-                Founded in New Delhi. Operating globally. Building what comes
-                next.
+              <p className="text-(--color-caramel) font-mono text-xs font-bold tracking-wider uppercase">
+                WHERE WORLD CONNECTS TECHNICALLY · SERVING CLIENTS GLOBALLY
               </p>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-8">
+            {/* Key Milestones Bar */}
+            <div className="mt-8 grid grid-cols-3 gap-4 border-t border-[rgba(246,238,227,0.1)] pt-6">
               {[
-                { label: "PROJECTS", value: "25+" },
-                { label: "COUNTRIES", value: "4" },
-                { label: "AI SYSTEMS", value: "8+" },
+                { label: "AI & ROBOTICS PRODUCTS", value: "10+" },
+                { label: "GLOBAL REACH", value: "4+ COUNTRIES" },
+                { label: "SUB-20MS INFERENCE", value: "100% NATIVE" },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-display text-3xl font-medium text-(--color-ink)">
+                  <p className="font-display text-2xl md:text-3xl font-bold text-[#FBF7EE]">
                     {stat.value}
                   </p>
-                  <p className="hud-label mt-1 text-(--color-ink-faint)">{stat.label}</p>
+                  <p className="font-mono text-[9px] tracking-wider text-[#917C69] uppercase mt-1 font-semibold">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* pillar descriptions */}
-        <div className="mt-24 grid gap-6 md:grid-cols-3">
+        {/* Pillar Feature Cards */}
+        <div className="mt-16 grid gap-6 md:grid-cols-3">
           {PILLARS.map((p) => (
             <div
               key={p.id}
-              className="rounded-xl border border-(--color-surface-border) p-6"
+              className="rounded-3xl border border-[rgba(246,238,227,0.12)] bg-[rgba(27,18,13,0.85)] p-6 backdrop-blur-xl transition-all hover:border-(--color-caramel)/40 hover:shadow-lg"
             >
               <div
-                className="mb-4 h-0.5 w-10"
+                className="mb-4 h-1 w-12 rounded-full"
                 style={{ backgroundColor: p.color }}
               />
               <p
-                className="font-mono-tight text-xs"
+                className="font-mono text-xs font-bold tracking-wider uppercase"
                 style={{ color: p.color }}
               >
                 {p.title}
               </p>
-              <p className="mt-3 text-sm text-(--color-ink-dim)">{p.desc}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#D4C2AD]">
+                {p.desc}
+              </p>
             </div>
           ))}
         </div>

@@ -8,7 +8,7 @@ interface MagneticButtonProps {
   children: React.ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: "solid" | "ghost";
+  variant?: "solid" | "ghost" | "caramel" | "cream";
   icon?: boolean;
   className?: string;
 }
@@ -24,8 +24,8 @@ export function MagneticButton({
   const ref = useRef<HTMLAnchorElement | HTMLButtonElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 15, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 200, damping: 15, mass: 0.4 });
+  const sx = useSpring(x, { stiffness: 220, damping: 16, mass: 0.35 });
+  const sy = useSpring(y, { stiffness: 220, damping: 16, mass: 0.35 });
 
   function onMouseMove(e: React.MouseEvent) {
     const el = ref.current;
@@ -43,18 +43,29 @@ export function MagneticButton({
   }
 
   const base =
-    "group relative inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono-tight text-xs uppercase transition-colors duration-300";
-  const styles =
-    variant === "solid"
-      ? "bg-(--color-ink) text-(--color-void) hover:bg-(--color-cyan)"
-      : "border border-(--color-surface-border) text-(--color-ink) hover:border-(--color-cyan) hover:text-(--color-cyan)";
+    "group relative inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3 font-mono text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-sm cursor-pointer select-none";
+
+  let styles = "";
+  if (variant === "solid") {
+    styles =
+      "bg-[#1A100B] text-[#FBF7EE] hover:bg-(--color-caramel) hover:text-(--color-void) hover:shadow-[0_0_24px_rgba(223,157,86,0.4)]";
+  } else if (variant === "caramel") {
+    styles =
+      "bg-gradient-to-r from-(--color-caramel) to-(--color-bronze) text-[#1A100B] font-bold hover:shadow-[0_0_28px_rgba(223,157,86,0.5)] hover:brightness-110";
+  } else if (variant === "cream") {
+    styles =
+      "bg-[#FFFFFF] text-[#1A100B] border border-[rgba(42,23,16,0.1)] hover:bg-(--color-caramel) hover:text-(--color-void) hover:shadow-md";
+  } else {
+    styles =
+      "border border-[rgba(42,23,16,0.15)] bg-[rgba(255,255,255,0.7)] text-[#1A100B] backdrop-blur-md hover:border-(--color-caramel) hover:text-(--color-caramel) hover:bg-[#FFFFFF]";
+  }
 
   const content = (
     <motion.span
       style={{ x: sx, y: sy }}
       className="inline-flex items-center gap-2"
     >
-      {children}
+      <span>{children}</span>
       {icon && (
         <ArrowUpRight
           size={14}

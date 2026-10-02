@@ -6,7 +6,7 @@ export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
-  const [variant, setVariant] = useState<"default" | "link" | "project">("default");
+  const [variant, setVariant] = useState<"default" | "link" | "project" | "video">("default");
   const [label, setLabel] = useState<string | null>(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export function CustomCursor() {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!canHover || prefersReduced) return;
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time capability gate on mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEnabled(true);
     document.documentElement.classList.add("custom-cursor");
 
@@ -32,10 +32,15 @@ export function CustomCursor() {
     function onOver(e: MouseEvent) {
       const target = e.target as HTMLElement;
       const projectTarget = target.closest<HTMLElement>("[data-cursor='project']");
+      const videoTarget = target.closest<HTMLElement>("[data-cursor='video']");
       const linkTarget = target.closest<HTMLElement>("a, button, [data-cursor='link']");
-      if (projectTarget) {
+
+      if (videoTarget) {
+        setVariant("video");
+        setLabel(videoTarget.dataset.cursorLabel ?? "PLAY");
+      } else if (projectTarget) {
         setVariant("project");
-        setLabel(projectTarget.dataset.cursorLabel ?? "View");
+        setLabel(projectTarget.dataset.cursorLabel ?? "VIEW");
       } else if (linkTarget) {
         setVariant("link");
         setLabel(null);
@@ -71,24 +76,35 @@ export function CustomCursor() {
 
   return (
     <>
+      {/* Caramel precision core dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[999] h-1.5 w-1.5 rounded-full bg-(--color-cyan) will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[999] h-2 w-2 rounded-full bg-(--color-caramel) shadow-[0_0_8px_rgba(223,157,86,0.8)] will-change-transform"
       />
+      {/* Interactive Cream & Caramel Aura Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-[998] flex items-center justify-center rounded-full border will-change-transform transition-[width,height,border-color,background-color] duration-200 ease-out"
         style={{
-          width: variant === "project" ? 88 : variant === "link" ? 48 : 28,
-          height: variant === "project" ? 88 : variant === "link" ? 48 : 28,
+          width: variant === "video" ? 96 : variant === "project" ? 88 : variant === "link" ? 46 : 30,
+          height: variant === "video" ? 96 : variant === "project" ? 88 : variant === "link" ? 46 : 30,
           borderColor:
-            variant === "default" ? "rgba(244,245,247,0.35)" : "var(--color-cyan)",
+            variant === "default"
+              ? "rgba(246, 238, 227, 0.3)"
+              : "rgba(223, 157, 86, 0.85)",
           backgroundColor:
-            variant === "project" ? "rgba(77,232,255,0.08)" : "transparent",
+            variant === "video"
+              ? "rgba(223, 157, 86, 0.15)"
+              : variant === "project"
+              ? "rgba(34, 24, 18, 0.55)"
+              : "transparent",
+          backdropFilter: variant === "project" || variant === "video" ? "blur(4px)" : "none",
         }}
       >
         {label && (
-          <span className="hud-label !text-[9px] text-(--color-cyan)">{label}</span>
+          <span className="font-mono text-[9px] font-semibold tracking-widest text-(--color-caramel)">
+            {label}
+          </span>
         )}
       </div>
     </>

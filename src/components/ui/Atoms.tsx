@@ -12,10 +12,17 @@ export function SectionLabel({
   light?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3">
-      {index && <span className="hud-label text-(--color-cyan)">{index}</span>}
+    <div className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(223,157,86,0.2)] bg-[rgba(34,24,18,0.6)] px-3.5 py-1 backdrop-blur-md">
+      {index && (
+        <span className="font-mono text-[10px] font-semibold tracking-wider text-(--color-caramel)">
+          {index}
+        </span>
+      )}
+      {index && <span className="h-1 w-1 rounded-full bg-(--color-caramel)/60" />}
       <span
-        className={`hud-label ${light ? "text-(--color-ink)" : "text-(--color-ink-dim)"}`}
+        className={`font-mono text-[11px] font-medium tracking-widest uppercase ${
+          light ? "text-(--color-ink)" : "text-(--color-ink-dim)"
+        }`}
       >
         {label}
       </span>
@@ -30,18 +37,32 @@ export function HudLabel({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={`hud-label ${className}`}>{children}</div>;
+  return (
+    <div
+      className={`font-mono text-[11px] tracking-widest uppercase text-(--color-ink-dim) ${className}`}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function ScrollIndicator() {
   return (
     <motion.div
       className="flex flex-col items-center gap-3"
-      animate={{ opacity: [0.4, 1, 0.4] }}
+      animate={{ opacity: [0.4, 1, 0.4], y: [0, 4, 0] }}
       transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
     >
-      <span className="hud-label [writing-mode:vertical-rl]">SCROLL</span>
-      <span className="h-10 w-px bg-gradient-to-b from-(--color-ink-dim) to-transparent" />
+      <span className="font-mono text-[10px] tracking-widest text-(--color-caramel) [writing-mode:vertical-rl]">
+        SCROLL TO EXPLORE
+      </span>
+      <div className="relative h-10 w-px bg-gradient-to-b from-(--color-caramel) via-(--color-caramel)/40 to-transparent">
+        <motion.div
+          className="h-2 w-px bg-(--color-ink)"
+          animate={{ y: [0, 32, 0] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
     </motion.div>
   );
 }
