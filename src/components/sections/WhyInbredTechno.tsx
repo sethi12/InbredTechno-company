@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShieldCheck, Cpu, Layers, Sparkles, Zap, ArrowUpRight } from "lucide-react";
+import { ShieldCheck, Cpu, Layers, Sparkles, Zap, ArrowUpRight, CheckCircle2 } from "lucide-react";
 
 const DIFFERENTIATORS = [
   {
@@ -23,6 +24,27 @@ const DIFFERENTIATORS = [
     icon: Zap,
     title: "Sub-20ms Deterministic Latency",
     desc: "Whether executing real-time pose tracking in commercial gym kiosks or streaming high-throughput video reels, speed is treated as a core feature.",
+  },
+];
+
+const LAB_SHOWCASE = [
+  {
+    title: "Robotics & Hardware R&D Lab",
+    tagline: "Physical computing, kinematic servos & edge micro-controllers",
+    badge: "LAB 01 · HARDWARE",
+    image: "/showcase/inbred_robotics_lab_1791129579963.jpg",
+  },
+  {
+    title: "Autonomous Sensor & Edge Kiosk",
+    tagline: "Industrial sensor fusion, stereo depth & computer vision",
+    badge: "LAB 02 · SENSORS",
+    image: "/showcase/automation_sensor_kiosk_1791151133484.jpg",
+  },
+  {
+    title: "Mobile & Platform Engineering Hub",
+    tagline: "High-throughput apps, reactive UX & real-time telemetry",
+    badge: "LAB 03 · PLATFORMS",
+    image: "/showcase/mobile_app_development_desk_1791151114109.jpg",
   },
 ];
 
@@ -101,6 +123,63 @@ export function WhyInbredTechno() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Engineering Lab & Hardware Deployment Gallery */}
+        <div className="mt-16 border-t border-[rgba(42,23,16,0.08)] pt-16">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+              <span className="font-mono text-[10px] font-bold tracking-widest text-(--color-caramel) uppercase">
+                INBREDTECHNO ENGINEERING FACILITY
+              </span>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold text-(--color-chocolate-ink) mt-1">
+                Where Physical Hardware Meets Intelligent Code.
+              </h3>
+            </div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(42,23,16,0.12)] bg-[rgba(255,255,255,0.8)] px-3.5 py-1.5 font-mono text-[10px] font-bold text-(--color-chocolate-ink)">
+              <CheckCircle2 size={13} className="text-(--color-active)" />
+              PROPRIETARY R&D PIPELINES
+            </span>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {LAB_SHOWCASE.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.15, duration: 0.5 }}
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-[rgba(42,23,16,0.1)] bg-[rgba(255,255,255,0.85)] p-4 backdrop-blur-xl shadow-md transition-all duration-300 hover:border-(--color-caramel) hover:shadow-xl"
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[rgba(42,23,16,0.08)] bg-[#150D09]">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,11,7,0.7)] via-transparent to-black/10 pointer-events-none" />
+                  
+                  <div className="absolute top-3 left-3">
+                    <span className="font-mono text-[9px] font-bold text-[#FBF7EE] bg-[rgba(24,17,12,0.85)] px-2.5 py-0.5 rounded-full border border-[rgba(246,238,227,0.2)] backdrop-blur-md">
+                      {item.badge}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4 px-1 pb-1">
+                  <h4 className="font-display text-lg font-bold text-(--color-chocolate-ink) group-hover:text-(--color-caramel) transition-colors">
+                    {item.title}
+                  </h4>
+                  <p className="mt-1 text-xs text-(--color-chocolate-dim) leading-relaxed">
+                    {item.tagline}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

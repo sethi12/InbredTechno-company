@@ -166,6 +166,114 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    id: "omnicloud-saas",
+    title: "OmniCloud SaaS Telemetry",
+    tagline: "Enterprise Multi-Tenant Cloud & Data Streaming Platform",
+    category: "SAAS",
+    typeBadge: "SAAS CLOUD · MULTI-TENANT INFRASTRUCTURE",
+    description:
+      "Enterprise-grade multi-tenant SaaS architecture engineered with distributed microservices, real-time Kafka event streaming, automated Stripe subscription billing tiers, and bespoke WebGL operational command dashboards.",
+    challenge:
+      "Architecting a multi-tenant cloud platform that guarantees strict tenant data isolation, sub-10ms global API latency, and automated usage-based billing at scale.",
+    solution:
+      "Engineered a distributed PostgreSQL + Redis caching matrix with automated tenant partitioning, JWT RBAC security boundaries, and real-time WebSocket telemetry.",
+    technologies: ["Next.js", "Docker", "Stripe API", "PostgreSQL", "Redis", "Kafka", "Three.js"],
+    image: "/showcase/saas_product_dashboard_1791151061992.jpg",
+    images: [
+      "/showcase/saas_product_dashboard_1791151061992.jpg",
+      "/showcase/saas_cloud_operations_1791151102274.jpg",
+      "/showcase/saas_data_pipeline_1791151159066.jpg",
+    ],
+    featured: true,
+    year: "2025",
+    metrics: [
+      { label: "Uptime SLA", value: "99.999% SLA" },
+      { label: "Multi-Tenant Latency", value: "<8ms Global" },
+      { label: "Billing Engine", value: "Automated Stripe Tiers" },
+    ],
+  },
+  {
+    id: "autonomous-sensor-grid",
+    title: "Sensor Automation Kiosk",
+    tagline: "Industrial IoT Edge Compute & Sensor Fusion Network",
+    category: "AUTOMATION",
+    typeBadge: "AUTOMATION · SENSOR FUSION · EDGE AI",
+    description:
+      "Hardware-integrated automation kiosk network featuring multi-modal LiDAR, stereo depth vision, ultrasonic telemetry, and deterministic micro-controller actuation for unattended commercial and industrial operations.",
+    challenge:
+      "Synchronizing high-frequency asynchronous sensor streams under harsh environmental conditions without edge compute thermal throttling.",
+    solution:
+      "Engineered a deterministic C++ edge engine with Micro-ROS message routing, real-time Kalman filtering for sensor fusion, and MQTT cloud synchronization.",
+    technologies: ["Edge AI", "ROS 2", "LiDAR Fusion", "C++ Engine", "MQTT", "Micro-ROS", "Kiosk OS"],
+    image: "/showcase/automation_sensor_kiosk_1791151133484.jpg",
+    images: [
+      "/showcase/automation_sensor_kiosk_1791151133484.jpg",
+      "/showcase/automation_engineering_1791151072650.jpg",
+      "/showcase/automation_robotic_assembly_1791151189464.jpg",
+    ],
+    featured: true,
+    year: "2025",
+    metrics: [
+      { label: "Control Loop", value: "<15ms Deterministic" },
+      { label: "Sensors Active", value: "LiDAR + Stereo Depth" },
+      { label: "Architecture", value: "Edge Hardware Kiosk" },
+    ],
+  },
+  {
+    id: "omnistore-commerce",
+    title: "OmniStore Luxury Commerce",
+    tagline: "High-Converting Headless E-Commerce & 3D Storefront",
+    category: "E-COMMERCE",
+    typeBadge: "E-COMMERCE · HEADLESS ARCHITECTURE",
+    description:
+      "Next-generation digital commerce platform engineered for luxury retail brands. Features instant page transitions, interactive 3D product viewports, Level 1 PCI Stripe Elements checkout, and automated inventory sync.",
+    challenge:
+      "Eliminating checkout drop-off and delivering rich editorial luxury experiences without sacrificing mobile performance or SEO rankings.",
+    solution:
+      "Built a headless Next.js architecture with edge-rendered static generation, localized CDN caching, dynamic cart state machines, and streamlined one-click payments.",
+    technologies: ["Next.js", "Stripe API", "Three.js", "Tailwind CSS", "MongoDB", "Framer Motion"],
+    image: "/showcase/ecommerce_luxury_storefront_1791151146053.jpg",
+    images: [
+      "/showcase/ecommerce_luxury_storefront_1791151146053.jpg",
+      "/showcase/ecommerce_mobile_checkout_1791151091135.jpg",
+      "/showcase/ecommerce_analytics_growth_1791151199994.jpg",
+    ],
+    featured: true,
+    year: "2025",
+    metrics: [
+      { label: "Checkout Speed", value: "Sub-Second Pay" },
+      { label: "Payment Security", value: "Stripe Level 1 PCI" },
+      { label: "Performance", value: "99/100 Lighthouse" },
+    ],
+  },
+  {
+    id: "fluid-mobile-app",
+    title: "Fluid Design System App",
+    tagline: "Gesture-Driven Native Mobile Interface & Engine",
+    category: "MOBILE",
+    typeBadge: "MOBILE APP · DESIGN SYSTEM",
+    description:
+      "High-performance native mobile application built on bespoke physics-driven gesture pipelines, custom typography hierarchies, real-time WebSocket messaging, and cross-platform Flutter/Swift architecture.",
+    challenge:
+      "Maintaining locked 120 FPS render performance during complex gesture interactions and continuous background real-time data sync.",
+    solution:
+      "Custom render layers with hardware-accelerated GPU shaders, optimistic local-first caching, and lightweight background sync workers.",
+    technologies: ["Flutter", "SwiftUI", "WebSockets", "Firebase", "Node.js", "Framer Motion"],
+    image: "/showcase/mobile_app_interface_1791151050704.jpg",
+    images: [
+      "/showcase/mobile_app_interface_1791151050704.jpg",
+      "/showcase/mobile_app_design_system_1791151179901.jpg",
+      "/showcase/mobile_app_development_desk_1791151114109.jpg",
+    ],
+    featured: true,
+    year: "2025",
+    metrics: [
+      { label: "Framerate", value: "120 FPS ProMotion" },
+      { label: "Interaction Latency", value: "<10ms Real-Time" },
+      { label: "Architecture", value: "Cross-Platform Mobile" },
+    ],
+  },
+  {
     id: "beautybykrimse",
     title: "Beauty by Krimse",
     tagline: "Luxury Bridal Artistry & Editorial Portfolio Platform",

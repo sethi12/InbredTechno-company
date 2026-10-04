@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Cpu, Bot, Layers, Smartphone, ShoppingBag, Eye } from "lucide-react";
 
@@ -11,6 +12,7 @@ export interface CapabilityItem {
   description: string;
   icon: typeof Cpu;
   stack: string[];
+  image: string;
 }
 
 export const CAPABILITIES_LIST: CapabilityItem[] = [
@@ -22,6 +24,7 @@ export const CAPABILITIES_LIST: CapabilityItem[] = [
       "We design, train, and deploy production-grade neural networks, 33-point pose estimation models, computer vision pipelines, and autonomous agent loops that perform in sub-20 milliseconds on both cloud and edge hardware.",
     icon: Cpu,
     stack: ["PyTorch", "MediaPipe", "TensorFlow", "Groq", "CUDA", "ONNX"],
+    image: "/showcase/edge_ai_microchip_1791129537194.jpg",
   },
   {
     index: "02",
@@ -31,6 +34,7 @@ export const CAPABILITIES_LIST: CapabilityItem[] = [
       "Physical machines powered by deterministic software. We engineer commercial hardware kiosks, kinematic control systems, LiDAR/stereo vision fusion, and low-latency motor actuation pipelines.",
     icon: Bot,
     stack: ["Edge AI", "WebRTC", "C++ Engine", "ROS / Micro-ROS", "MQTT", "Kiosk OS"],
+    image: "/showcase/automation_engineering_1791151072650.jpg",
   },
   {
     index: "03",
@@ -40,6 +44,7 @@ export const CAPABILITIES_LIST: CapabilityItem[] = [
       "High-throughput systems engineered for millions of concurrent interactions. From Flutter video reels pipelines with custom HLS transcoding to real-time event-driven backends.",
     icon: Smartphone,
     stack: ["Next.js", "Flutter", "Node.js", "PostgreSQL", "Redis", "Cloud Run"],
+    image: "/showcase/mobile_app_development_desk_1791151114109.jpg",
   },
   {
     index: "04",
@@ -49,6 +54,7 @@ export const CAPABILITIES_LIST: CapabilityItem[] = [
       "Enterprise-scale multi-tenant architectures engineered for fault-tolerant operation, automated Stripe recurring billing, 3D interactive visualizations, and high-throughput data processing.",
     icon: Layers,
     stack: ["Next.js", "Docker", "Stripe API", "MongoDB", "Three.js", "GraphQL"],
+    image: "/showcase/saas_product_dashboard_1791151061992.jpg",
   },
   {
     index: "05",
@@ -58,15 +64,17 @@ export const CAPABILITIES_LIST: CapabilityItem[] = [
       "Real-time visual intelligence and augmented reality mirrors. Deep-learning body segmentation and 3D cloth deformation shaders for retail kiosks and web viewports.",
     icon: Eye,
     stack: ["OpenCV", "PyTorch", "WebGL", "TensorRT", "WebSockets"],
+    image: "/showcase/virtual_mirror_ar_1791129466351.jpg",
   },
   {
     index: "06",
     title: "E-Commerce Technology",
     tagline: "3D Product Storefronts · Headless Commerce · Payment Systems",
     description:
-      "Modern digital commerce experiences with 3D product viewports, seamless cart orchestration, Level 1 PCI Stripe security, and automated inventory sync (as engineered for FiveWellness).",
+      "Modern digital commerce experiences with 3D product viewports, seamless cart orchestration, Level 1 PCI Stripe security, and automated inventory sync.",
     icon: ShoppingBag,
     stack: ["Headless Next.js", "Three.js", "Stripe Elements", "Tailwind CSS", "MongoDB"],
+    image: "/showcase/ecommerce_tech_platform_1791151030503.jpg",
   },
 ];
 
@@ -182,16 +190,38 @@ export function WhatWeBuild() {
                   </div>
                 </div>
 
+                {/* Capability Visual Preview */}
+                <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-[rgba(42,23,16,0.12)] bg-[#150D09] shadow-inner group">
+                  <Image
+                    src={activeCapability.image}
+                    alt={`${activeCapability.title} — InbredTechno Capability`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 500px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,11,7,0.75)] via-transparent to-black/10 pointer-events-none" />
+                  
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(246,238,227,0.2)] bg-[rgba(24,17,12,0.85)] px-2.5 py-0.5 font-mono text-[9px] font-bold text-[#FBF7EE] backdrop-blur-md">
+                      <span className="h-1.5 w-1.5 rounded-full bg-(--color-caramel)" />
+                      {activeCapability.tagline.split("·")[0].trim()}
+                    </span>
+                    <span className="font-mono text-[9px] font-bold text-(--color-caramel) bg-[rgba(24,17,12,0.85)] px-2.5 py-0.5 rounded-full border border-[rgba(223,157,86,0.3)] backdrop-blur-md">
+                      LIVE SPEC
+                    </span>
+                  </div>
+                </div>
+
                 <h4 className="mt-6 font-display text-2xl md:text-3xl font-bold text-(--color-chocolate-ink)">
                   {activeCapability.title}
                 </h4>
 
-                <p className="mt-4 text-base leading-relaxed text-(--color-chocolate-dim)">
+                <p className="mt-3 text-sm md:text-base leading-relaxed text-(--color-chocolate-dim)">
                   {activeCapability.description}
                 </p>
 
                 {/* Tech Badges */}
-                <div className="mt-8 border-t border-[rgba(42,23,16,0.08)] pt-6">
+                <div className="mt-6 border-t border-[rgba(42,23,16,0.08)] pt-5">
                   <p className="font-mono text-[10px] tracking-widest text-(--color-chocolate-faint) uppercase mb-3">
                     CORE TECH STACK & INTEGRATION
                   </p>

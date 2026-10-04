@@ -43,18 +43,21 @@ const CORE_PILLARS = [
     title: "AI & Neural Systems",
     desc: "Designing and deploying production deep-learning models, 33-point real-time skeletal tracking, and sub-20ms edge vision inference engines.",
     tag: "COMPUTER VISION · PYTORCH · ONNX",
+    image: "/showcase/edge_ai_microchip_1791129537194.jpg",
   },
   {
     icon: Bot,
     title: "Autonomous Robotics",
     desc: "Architecting physical hardware kiosks, sensor fusion architectures (stereo depth + LiDAR), and deterministic kinematic control loops.",
     tag: "HARDWARE KIOSKS · SENSOR FUSION · EMBEDDED",
+    image: "/showcase/automation_robotic_assembly_1791151189464.jpg",
   },
   {
     icon: Layers,
     title: "SaaS Cloud & High Concurrency",
     desc: "Building multi-tenant enterprise cloud platforms, serverless video transcoding clusters, and automated global billing architectures.",
     tag: "DISTRIBUTED SYSTEMS · NEXT.JS · FLUTTER",
+    image: "/showcase/saas_cloud_operations_1791151102274.jpg",
   },
 ];
 
@@ -302,16 +305,29 @@ export default function FounderPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.5 }}
-                    className="flex flex-col justify-between rounded-3xl border border-[rgba(246,238,227,0.1)] bg-[rgba(27,18,13,0.7)] p-8 backdrop-blur-xl transition-all duration-300 hover:border-(--color-caramel)/50 hover:shadow-[0_16px_40px_rgba(223,157,86,0.15)]"
+                    className="group flex flex-col justify-between rounded-3xl border border-[rgba(246,238,227,0.1)] bg-[rgba(27,18,13,0.7)] p-6 backdrop-blur-xl transition-all duration-300 hover:border-(--color-caramel)/50 hover:shadow-[0_16px_40px_rgba(223,157,86,0.15)]"
                   >
                     <div>
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-(--color-caramel)/15 text-(--color-caramel) mb-6">
-                        <Icon size={22} />
+                      {/* Image Preview */}
+                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[rgba(246,238,227,0.1)] bg-[#150D09] mb-6">
+                        <Image
+                          src={p.image}
+                          alt={p.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 400px"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,11,7,0.8)] via-transparent to-black/15 pointer-events-none" />
+                        
+                        <div className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(24,17,12,0.85)] border border-[rgba(223,157,86,0.4)] text-(--color-caramel) backdrop-blur-md shadow-sm">
+                          <Icon size={20} />
+                        </div>
                       </div>
-                      <h3 className="font-display text-xl font-bold text-[#FBF7EE]">
+
+                      <h3 className="font-display text-xl font-bold text-[#FBF7EE] group-hover:text-(--color-caramel) transition-colors">
                         {p.title}
                       </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-[#D4C2AD]">
+                      <p className="mt-2.5 text-sm leading-relaxed text-[#D4C2AD]">
                         {p.desc}
                       </p>
                     </div>

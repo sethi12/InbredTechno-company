@@ -11,22 +11,25 @@ function ProjectMediaCard({
   onOpenModal,
 }: {
   project: Project;
-  onOpenModal: (project: Project, initialVideoIndex?: number) => void;
+  onOpenModal: (project: Project, initialMediaIndex?: number) => void;
 }) {
-  const [selectedVideoIdx, setSelectedVideoIdx] = useState(0);
+  const [selectedMediaIdx, setSelectedMediaIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const videoList = project.videos || (project.video ? [project.video] : []);
-  const currentVideo = videoList[selectedVideoIdx] || project.video;
+  const currentVideo = videoList[selectedMediaIdx] || project.video;
+
+  const imageList = project.images || (project.image ? [project.image] : []);
+  const currentImage = imageList[selectedMediaIdx] || project.image;
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && currentVideo) {
       videoRef.current.load();
       videoRef.current.play().catch(() => {});
     }
-  }, [selectedVideoIdx, currentVideo]);
+  }, [selectedMediaIdx, currentVideo]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -91,7 +94,7 @@ function ProjectMediaCard({
               </div>
 
               <button
-                onClick={() => onOpenModal(project, selectedVideoIdx)}
+                onClick={() => onOpenModal(project, selectedMediaIdx)}
                 className="flex items-center gap-1.5 rounded-full bg-[rgba(24,17,12,0.85)] border border-[rgba(223,157,86,0.4)] px-3 py-1 text-[10px] font-mono font-bold text-(--color-caramel) backdrop-blur-md transition-all hover:bg-(--color-caramel) hover:text-(--color-void) shadow-sm"
               >
                 <Maximize2 size={10} />
@@ -99,13 +102,13 @@ function ProjectMediaCard({
               </button>
             </div>
           </div>
-        ) : project.image ? (
+        ) : currentImage ? (
           <div 
-            onClick={() => onOpenModal(project, 0)}
+            onClick={() => onOpenModal(project, selectedMediaIdx)}
             className="relative h-full w-full cursor-pointer"
           >
             <Image
-              src={project.image}
+              src={currentImage}
               alt={`${project.title} — ${project.tagline}`}
               fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -116,7 +119,7 @@ function ProjectMediaCard({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onOpenModal(project, 0);
+                  onOpenModal(project, selectedMediaIdx);
                 }}
                 className="flex items-center gap-1.5 rounded-full bg-[rgba(24,17,12,0.85)] border border-[rgba(223,157,86,0.4)] px-3 py-1 text-[10px] font-mono font-bold text-(--color-caramel) backdrop-blur-md transition-all hover:bg-(--color-caramel) hover:text-(--color-void) shadow-sm"
               >
@@ -141,18 +144,18 @@ function ProjectMediaCard({
           </span>
         </div>
 
-        {/* Multi-Clip Selector */}
-        {videoList.length > 1 && (
+        {/* Multi-Clip / Multi-View Selector */}
+        {videoList.length > 1 ? (
           <div className="absolute top-3 right-3 z-10 flex flex-wrap gap-1 max-w-[65%] justify-end">
             {videoList.map((_, idx) => (
               <button
                 key={idx}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelectedVideoIdx(idx);
+                  setSelectedMediaIdx(idx);
                 }}
                 className={`rounded-full px-2 py-0.5 font-mono text-[9px] font-semibold backdrop-blur-md transition-all shadow-sm ${
-                  selectedVideoIdx === idx
+                  selectedMediaIdx === idx
                     ? "bg-(--color-caramel) text-(--color-void) font-bold shadow-[0_0_8px_rgba(223,157,86,0.8)]"
                     : "bg-[rgba(24,17,12,0.85)] text-[#FBF7EE] border border-[rgba(246,238,227,0.2)] hover:border-(--color-caramel)"
                 }`}
@@ -161,7 +164,26 @@ function ProjectMediaCard({
               </button>
             ))}
           </div>
-        )}
+        ) : imageList.length > 1 ? (
+          <div className="absolute top-3 right-3 z-10 flex flex-wrap gap-1 max-w-[65%] justify-end">
+            {imageList.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedMediaIdx(idx);
+                }}
+                className={`rounded-full px-2 py-0.5 font-mono text-[9px] font-semibold backdrop-blur-md transition-all shadow-sm ${
+                  selectedMediaIdx === idx
+                    ? "bg-(--color-caramel) text-(--color-void) font-bold shadow-[0_0_8px_rgba(223,157,86,0.8)]"
+                    : "bg-[rgba(24,17,12,0.85)] text-[#FBF7EE] border border-[rgba(246,238,227,0.2)] hover:border-(--color-caramel)"
+                }`}
+              >
+                View {idx + 1}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       {/* Card Body */}
@@ -180,7 +202,7 @@ function ProjectMediaCard({
               </p>
             </div>
             <button
-              onClick={() => onOpenModal(project, selectedVideoIdx)}
+              onClick={() => onOpenModal(project, selectedMediaIdx)}
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[rgba(42,23,16,0.12)] bg-[rgba(255,255,255,0.9)] text-(--color-chocolate-ink) transition-all hover:border-(--color-caramel) hover:text-(--color-caramel) hover:scale-105 shadow-sm"
               aria-label="View details"
             >
@@ -362,6 +384,15 @@ export function WorksSection() {
                       className="w-full max-h-[500px] object-contain"
                     />
                   </div>
+                ) : modalProject.images && modalProject.images.length > 0 ? (
+                  <div className="relative overflow-hidden rounded-2xl border border-[rgba(246,238,227,0.15)] bg-[#150D09] shadow-2xl aspect-video w-full">
+                    <Image
+                      src={modalProject.images[modalVideoIdx] || modalProject.image || modalProject.images[0]}
+                      alt={`${modalProject.title} — ${modalProject.tagline}`}
+                      fill
+                      className="object-contain p-2"
+                    />
+                  </div>
                 ) : modalProject.image ? (
                   <div className="relative overflow-hidden rounded-2xl border border-[rgba(246,238,227,0.15)] bg-[#150D09] shadow-2xl aspect-video w-full">
                     <Image
@@ -373,8 +404,8 @@ export function WorksSection() {
                   </div>
                 ) : null}
 
-                {/* Multi Video Selector Bar */}
-                {modalProject.videos && modalProject.videos.length > 1 && (
+                {/* Multi Video / Image Selector Bar */}
+                {modalProject.videos && modalProject.videos.length > 1 ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-mono text-xs text-[#D4C2AD] mr-2 flex items-center gap-1.5">
                       <Film size={14} className="text-(--color-caramel)" />
@@ -394,7 +425,27 @@ export function WorksSection() {
                       </button>
                     ))}
                   </div>
-                )}
+                ) : modalProject.images && modalProject.images.length > 1 ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-xs text-[#D4C2AD] mr-2 flex items-center gap-1.5">
+                      <Sparkles size={14} className="text-(--color-caramel)" />
+                      AVAILABLE ARCHITECTURAL VIEWS:
+                    </span>
+                    {modalProject.images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setModalVideoIdx(idx)}
+                        className={`rounded-full px-4 py-1.5 font-mono text-xs font-bold transition-all ${
+                          modalVideoIdx === idx
+                            ? "bg-(--color-caramel) text-(--color-void) shadow-[0_0_12px_rgba(223,157,86,0.6)]"
+                            : "border border-[rgba(246,238,227,0.15)] bg-[rgba(34,24,18,0.7)] text-[#D4C2AD] hover:border-(--color-caramel)"
+                        }`}
+                      >
+                        View / Architecture 0{idx + 1}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
 
                 {/* Engineering Case Study Spec */}
                 <div className="grid gap-6 md:grid-cols-2 border-t border-[rgba(246,238,227,0.08)] pt-6">
