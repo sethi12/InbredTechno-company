@@ -7,6 +7,8 @@ import { ArrowUpRight } from "lucide-react";
 interface MagneticButtonProps {
   children: React.ReactNode;
   href?: string;
+  target?: string;
+  rel?: string;
   onClick?: () => void;
   variant?: "solid" | "ghost" | "caramel" | "cream";
   icon?: boolean;
@@ -16,6 +18,8 @@ interface MagneticButtonProps {
 export function MagneticButton({
   children,
   href,
+  target,
+  rel,
   onClick,
   variant = "solid",
   icon = true,
@@ -80,6 +84,8 @@ export function MagneticButton({
       <a
         ref={ref as React.RefObject<HTMLAnchorElement>}
         href={href}
+        target={target}
+        rel={rel}
         data-cursor="link"
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}

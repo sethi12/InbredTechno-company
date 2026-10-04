@@ -198,11 +198,11 @@ export function Contact() {
                 </MagneticButton>
 
                 <a
-                  href="mailto:hello@inbredtechno.com"
+                  href="mailto:inbredtechno@gmail.com"
                   className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-(--color-chocolate-dim) transition-colors hover:text-(--color-caramel)"
                 >
                   <Mail size={14} className="text-(--color-caramel)" />
-                  <span>Direct: hello@inbredtechno.com</span>
+                  <span>Direct: inbredtechno@gmail.com</span>
                 </a>
               </div>
             </div>

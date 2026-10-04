@@ -2,14 +2,15 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 const LINKS = [
-  { label: "Products", href: "#works" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "AI & ML", href: "#ai" },
-  { label: "Robotics", href: "#robotics" },
-  { label: "SaaS Cloud", href: "#saas" },
-  { label: "Engineering Process", href: "#process" },
-  { label: "About Us", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Products", href: "/#works" },
+  { label: "Capabilities", href: "/#capabilities" },
+  { label: "AI & ML", href: "/#ai" },
+  { label: "Robotics", href: "/#robotics" },
+  { label: "SaaS Cloud", href: "/#saas" },
+  { label: "Engineering Process", href: "/#process" },
+  { label: "About Us", href: "/#about" },
+  { label: "Founder", href: "/founder" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export function Footer() {

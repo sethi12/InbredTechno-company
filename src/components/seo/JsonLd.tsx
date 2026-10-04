@@ -19,11 +19,11 @@ export function JsonLd() {
         description:
           "InbredTechno is an advanced technology engineering company specializing in Artificial Intelligence, Autonomous Robotics, High-Throughput SaaS Products, Computer Vision, and Digital Commerce Platforms.",
         slogan: "Where World Connects Technically",
-        email: "contact@inbredtechno.com",
+        email: "inbredtechno@gmail.com",
         sameAs: [
           "https://twitter.com/inbredtechno",
           "https://linkedin.com/company/inbredtechno",
-          "https://github.com/sethi12",
+          "https://instagram.com/inbredtechno",
         ],
         knowsAbout: [
           "Artificial Intelligence",
@@ -40,7 +40,7 @@ export function JsonLd() {
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "contact@inbredtechno.com",
+          email: "inbredtechno@gmail.com",
           availableLanguage: ["English", "Hindi"],
         },
       },

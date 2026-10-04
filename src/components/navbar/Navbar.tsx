@@ -7,13 +7,14 @@ import { Menu, X, Sparkles } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
 const LINKS = [
-  { label: "Products", href: "#works" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "AI & ML", href: "#ai" },
-  { label: "Robotics", href: "#robotics" },
-  { label: "SaaS Cloud", href: "#saas" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Products", href: "/#works" },
+  { label: "Capabilities", href: "/#capabilities" },
+  { label: "AI & ML", href: "/#ai" },
+  { label: "Robotics", href: "/#robotics" },
+  { label: "SaaS Cloud", href: "/#saas" },
+  { label: "About", href: "/#about" },
+  { label: "Founder", href: "/founder" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 function CompanyLogo({ size = 32 }: { size?: number }) {
