@@ -82,7 +82,7 @@ export function AboutSection() {
               <div className="relative h-14 w-14">
                 <Image
                   src="/logo.png"
-                  alt="InbredTechno"
+                  alt="InbredTechno — Advanced Technology Company"
                   fill
                   className="object-contain"
                 />

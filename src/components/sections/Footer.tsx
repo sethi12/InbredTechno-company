@@ -23,7 +23,7 @@ export function Footer() {
               <div className="relative h-12 w-12 shrink-0">
                 <Image
                   src="/logo.png"
-                  alt="InbredTechno"
+                  alt="InbredTechno — Software, AI, Robotics & SaaS Products"
                   fill
                   className="object-contain drop-shadow-[0_0_12px_rgba(223,157,86,0.3)]"
                 />

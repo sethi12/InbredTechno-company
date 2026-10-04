@@ -95,9 +95,9 @@ export function Loader({ onComplete }: { onComplete: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
             >
-              <h1 className="font-display text-2xl font-bold tracking-tight text-(--color-ink) md:text-3xl cream-gradient-text">
+              <p className="font-display text-2xl font-bold tracking-tight text-(--color-ink) md:text-3xl cream-gradient-text">
                 INBREDTECHNO
-              </h1>
+              </p>
               <p className="font-mono text-[10px] tracking-[0.25em] text-(--color-caramel) uppercase mt-1">
                 SOFTWARE · ROBOTICS · AI & ML
               </p>

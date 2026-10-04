@@ -106,7 +106,7 @@ function ProjectMediaCard({
           >
             <Image
               src={project.image}
-              alt={project.title}
+              alt={`${project.title} — ${project.tagline}`}
               fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
@@ -366,7 +366,7 @@ export function WorksSection() {
                   <div className="relative overflow-hidden rounded-2xl border border-[rgba(246,238,227,0.15)] bg-[#150D09] shadow-2xl aspect-video w-full">
                     <Image
                       src={modalProject.image}
-                      alt={modalProject.title}
+                      alt={`${modalProject.title} — ${modalProject.tagline}`}
                       fill
                       className="object-contain p-2"
                     />

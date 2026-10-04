@@ -21,7 +21,7 @@ function CompanyLogo({ size = 32 }: { size?: number }) {
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
       <Image
         src="/logo.png"
-        alt="InbredTechno"
+        alt="InbredTechno — Autonomous AI, Robotics & SaaS Engineering"
         width={size}
         height={size}
         className="object-contain drop-shadow-sm"
