@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://inbredtechno.com";
+const siteUrl = "https://www.inbredtechno.com";
 
 export const viewport: Viewport = {
   themeColor: [

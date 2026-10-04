@@ -4,18 +4,18 @@ export function JsonLd() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://inbredtechno.com/#organization",
+        "@id": "https://www.inbredtechno.com/#organization",
         name: "InbredTechno",
         alternateName: ["Inbred Techno", "InbredTechno Technologies"],
-        url: "https://inbredtechno.com",
+        url: "https://www.inbredtechno.com",
         logo: {
           "@type": "ImageObject",
-          url: "https://inbredtechno.com/logo.png",
+          url: "https://www.inbredtechno.com/logo.png",
           caption: "InbredTechno Logo",
           width: "512",
           height: "512",
         },
-        image: "https://inbredtechno.com/logo.png",
+        image: "https://www.inbredtechno.com/logo.png",
         description:
           "InbredTechno is an advanced technology engineering company specializing in Artificial Intelligence, Autonomous Robotics, High-Throughput SaaS Products, Computer Vision, and Digital Commerce Platforms.",
         slogan: "Where World Connects Technically",
@@ -46,19 +46,19 @@ export function JsonLd() {
       },
       {
         "@type": "WebSite",
-        "@id": "https://inbredtechno.com/#website",
-        url: "https://inbredtechno.com",
+        "@id": "https://www.inbredtechno.com/#website",
+        url: "https://www.inbredtechno.com",
         name: "InbredTechno — Software, AI, Robotics & SaaS Products",
         description:
           "Official website of InbredTechno — Engineering next-generation intelligent software, robotics, and machine learning products.",
         publisher: {
-          "@id": "https://inbredtechno.com/#organization",
+          "@id": "https://www.inbredtechno.com/#organization",
         },
         inLanguage: "en-US",
       },
       {
         "@type": "ItemList",
-        "@id": "https://inbredtechno.com/#products",
+        "@id": "https://www.inbredtechno.com/#products",
         name: "InbredTechno Engineered Products & Fleet",
         itemListElement: [
           {
@@ -137,7 +137,7 @@ export function JsonLd() {
       },
       {
         "@type": "FAQPage",
-        "@id": "https://inbredtechno.com/#faq",
+        "@id": "https://www.inbredtechno.com/#faq",
         mainEntity: [
           {
             "@type": "Question",
