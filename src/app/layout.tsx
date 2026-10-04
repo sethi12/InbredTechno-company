@@ -138,6 +138,9 @@ export const metadata: Metadata = {
       { url: "/logo-200.png", sizes: "200x200", type: "image/png" },
     ],
   },
+  verification: {
+    google: "m7Dy1mSaxwvC4Y1ZUm_np2pcAykIb8od_mfk7cBHY_g",
+  },
 };
 
 export default function RootLayout({
